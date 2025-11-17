@@ -1,19 +1,14 @@
 // js/models/adsModel.js
 
-/**
- * MODEL: Fetches ads from backend
- * - Only does fetch requests
- * - Returns pure data (array of ads)
- * - Throws errors on failure
- * - Does NOT manipulate DOM
- */
 
 export const getAds = async () => {
+  console.log('🔄 MODEL: Starting fetching to backend -> sparret ...');
+
   let ads = [];
 
   try {
     // Fetch ads endpoint
-    const response = await fetch('http://127.0.0.1:8000/api/anuncios');
+    const response = await fetch('http://127.0.0.1:8000/api/ads');
     
     // If response is not OK, throw error
     if (!response.ok) {
@@ -22,10 +17,12 @@ export const getAds = async () => {
     
     // Parse JSON
     ads = await response.json();
+    
+    console.log(`✅ MODEL: Received ${ads.length} ads from sparret`)
 
   } catch (error) {
     // Throw error to controller
-    throw new Error('Could not load ads: ' + error.message);
+    throw new Error('❌ MODEL: Could not load ads: ' + error.message);
   }
   
   return ads;
