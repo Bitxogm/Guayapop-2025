@@ -1,3 +1,4 @@
+// js/controllers/adsController.js
 
 import { getAds } from '../models/adsModel.js';
 import { buildAdCard, buildAdsList } from '../views/adsView.js';
@@ -7,16 +8,18 @@ import { buildErrorState, buildEmptyState } from '../views/statesView.js';
 export const loadAds = async () => {
   console.log('🎮 CONTROLLER: Starting loadAds...');
   
-  const adsContainer = document.getElementById('ads-container');
-  const loader = document.querySelector('.loader');
+  //  Get DOM references
+  const adsContainer = document.getElementById('ads-container'); // Where cards go
+  const adsSection = document.getElementById('ads-cards');       // Event bus
   
+  // Verify elements exist
   if (!adsContainer) {
     console.error('❌ CONTROLLER: Container #ads-container not found');
     return;
   }
   
-  if (!loader) {
-    console.error('❌ CONTROLLER: Loader not found');
+  if (!adsSection) {
+    console.error('❌ CONTROLLER: Section #ads-cards not found');
     return;
   }
 
@@ -24,10 +27,11 @@ export const loadAds = async () => {
  
     console.log('🔄 CONTROLLER: STATE = LOADING');
     
-    // Show spinner
-    loader.classList.remove('hidden');
+    // Dispatch event: START fetching
+    const startEvent = new CustomEvent('start-fetching-ads');
+    adsSection.dispatchEvent(startEvent);  // ✅ Dispatch on EVENT BUS
     
-    // Clear container
+    // Clear container while loading
     adsContainer.innerHTML = '';
     
   
@@ -35,14 +39,16 @@ export const loadAds = async () => {
     const ads = await getAds();
     console.log(`🎮 CONTROLLER: Received ${ads.length} ads`);
     
-   
-    loader.classList.add('hidden');
-    
-  
+
     if (ads.length === 0) {
       console.log('📭 CONTROLLER: STATE = EMPTY (no ads)');
       adsContainer.innerHTML = buildEmptyState();
-      return;  
+      
+      // Optional: Dispatch empty event
+      const emptyEvent = new CustomEvent('ads-empty');
+      adsSection.dispatchEvent(emptyEvent);
+      
+      return;
     }
     
 
@@ -58,23 +64,32 @@ export const loadAds = async () => {
     console.log('✅ CONTROLLER: Ads displayed on screen!');
     
   } catch (error) {
-   
+ 
     console.error('❌ CONTROLLER: STATE = ERROR');
     console.error('❌ CONTROLLER: Error details:', error.message);
-    
-    // Hide spinner
-    loader.classList.add('hidden');
     
     // Show error message
     adsContainer.innerHTML = buildErrorState(error.message);
     
-    // Add event listener to retry button
+    // Dispatch error event
+    const errorEvent = new CustomEvent('ads-error', {
+      detail: { message: error.message }
+    });
+    adsSection.dispatchEvent(errorEvent);
+    
+    
     const retryBtn = document.getElementById('retry-btn');
     if (retryBtn) {
       retryBtn.addEventListener('click', () => {
         console.log('🔄 CONTROLLER: User clicked RETRY');
-        loadAds();  // Try again
+        loadAds();
       });
     }
+    
+  } finally {
+   
+    console.log('🏁 CONTROLLER: Dispatching finish event');
+    const finishEvent = new CustomEvent('finish-fetching-ads');
+    adsSection.dispatchEvent(finishEvent);
   }
 };
