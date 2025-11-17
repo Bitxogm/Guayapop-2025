@@ -1,52 +1,80 @@
 
 import { getAds } from '../models/adsModel.js';
 import { buildAdCard, buildAdsList } from '../views/adsView.js';
+import { buildErrorState, buildEmptyState } from '../views/statesView.js';
 
 
 export const loadAds = async () => {
   console.log('🎮 CONTROLLER: Starting loadAds...');
   
   const adsContainer = document.getElementById('ads-container');
+  const loader = document.querySelector('.loader');
   
   if (!adsContainer) {
     console.error('❌ CONTROLLER: Container #ads-container not found');
-    return; 
+    return;
+  }
+  
+  if (!loader) {
+    console.error('❌ CONTROLLER: Loader not found');
+    return;
   }
 
   try {
+ 
+    console.log('🔄 CONTROLLER: STATE = LOADING');
     
-    console.log('🎮 CONTROLLER: Calling Model to fetch ads...');
+    // Show spinner
+    loader.classList.remove('hidden');
+    
+    // Clear container
+    adsContainer.innerHTML = '';
+    
+  
+    console.log('🎮 CONTROLLER: Calling Model...');
     const ads = await getAds();
-    console.log(`🎮 CONTROLLER: Received ${ads.length} ads from Model`);
+    console.log(`🎮 CONTROLLER: Received ${ads.length} ads`);
     
-    console.log('🎮 CONTROLLER: Calling View to build HTML...');
+   
+    loader.classList.add('hidden');
     
-    // Build each card (using .map())
+  
+    if (ads.length === 0) {
+      console.log('📭 CONTROLLER: STATE = EMPTY (no ads)');
+      adsContainer.innerHTML = buildEmptyState();
+      return;  
+    }
+    
+
+    console.log('✅ CONTROLLER: STATE = SUCCESS, building HTML...');
+    
+    // Build HTML using Views
     const cardsHTMLArray = ads.map(ad => buildAdCard(ad));
-    
-    //  Join all cards into one string
     const allCardsHTML = cardsHTMLArray.join('');
-    
-    // Wrap all cards in container
     const completeHTML = buildAdsList(allCardsHTML);
     
-    console.log('🎮 CONTROLLER: HTML built successfully');
-    
-    //  Insert ads into the dom
+    // Insert into DOM
     adsContainer.innerHTML = completeHTML;
     console.log('✅ CONTROLLER: Ads displayed on screen!');
     
   } catch (error) {
-    // Error handling
-    console.error('❌ CONTROLLER: Error loading ads:', error.message);
+   
+    console.error('❌ CONTROLLER: STATE = ERROR');
+    console.error('❌ CONTROLLER: Error details:', error.message);
     
-    // Show error message 
-    adsContainer.innerHTML = `
-      <div class="col-12">
-        <div class="alert alert-danger">
-          <strong>Error:</strong> Could not load ads. ${error.message}
-        </div>
-      </div>
-    `;
+    // Hide spinner
+    loader.classList.add('hidden');
+    
+    // Show error message
+    adsContainer.innerHTML = buildErrorState(error.message);
+    
+    // Add event listener to retry button
+    const retryBtn = document.getElementById('retry-btn');
+    if (retryBtn) {
+      retryBtn.addEventListener('click', () => {
+        console.log('🔄 CONTROLLER: User clicked RETRY');
+        loadAds();  // Try again
+      });
+    }
   }
 };
