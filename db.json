@@ -1,0 +1,97 @@
+{
+  "anuncios": [
+    {
+      "id": 1,
+      "nombre": "iPhone 13 Pro",
+      "descripcion": "Móvil en perfecto estado, 256GB, batería al 95%. Incluye cargador original y funda. Sin arañazos, siempre con protector de pantalla.",
+      "precio": 650,
+      "tipo": "venta",
+      "foto": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400",
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "nombre": "MacBook Pro M1",
+      "descripcion": "Portátil Apple Silicon, 16GB RAM, 512GB SSD. Como nuevo, apenas usado. Perfecto para desarrollo y diseño. Incluye cargador original y caja.",
+      "precio": 1200,
+      "tipo": "venta",
+      "foto": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400",
+      "userId": 1
+    },
+    {
+      "id": 3,
+      "nombre": "Compro bicicleta de carretera",
+      "descripcion": "Busco bicicleta de segunda mano en buen estado. Presupuesto máximo 300€. Preferiblemente talla M o L.",
+      "precio": 300,
+      "tipo": "compra",
+      "foto": "https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=400",
+      "userId": 2
+    },
+    {
+      "id": 4,
+      "nombre": "PlayStation 5",
+      "descripcion": "PS5 edición estándar con lector de discos. Incluye un mando DualSense extra y 3 juegos: Spider-Man, God of War Ragnarök y Horizon Forbidden West.",
+      "precio": 450,
+      "tipo": "venta",
+      "foto": "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=400",
+      "userId": 2
+    },
+    {
+      "id": 5,
+      "nombre": "Cámara Canon EOS 90D",
+      "descripcion": "Cámara réflex profesional, cuerpo + objetivo 18-135mm. Muy poco uso, como nueva. Perfecta para fotografía y vídeo. Incluye batería extra, tarjeta SD 64GB y bolsa.",
+      "precio": 980,
+      "tipo": "venta",
+      "foto": "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=400",
+      "userId": 1
+    },
+    {
+      "id": 6,
+      "nombre": "Nintendo Switch OLED",
+      "descripcion": "Nintendo Switch OLED blanca. Incluye Joy-Con azul/rojo, dock, cables y 2 juegos: Zelda Breath of the Wild y Mario Kart 8.",
+      "precio": 280,
+      "tipo": "venta",
+      "foto": "https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?w=400",
+      "userId": 3
+    },
+    {
+      "id": 7,
+      "nombre": "Compro tablet para estudiar",
+      "descripcion": "Busco tablet Android o iPad para tomar apuntes y leer PDFs. Presupuesto hasta 200€. Que tenga buen estado de batería.",
+      "precio": 200,
+      "tipo": "compra",
+      "foto": "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400",
+      "userId": 3
+    },
+    {
+      "id": 8,
+      "nombre": "Auriculares Sony WH-1000XM4",
+      "descripcion": "Auriculares inalámbricos con cancelación de ruido. Estado impecable, apenas usados. Incluye estuche rígido, cable y adaptador de avión.",
+      "precio": 180,
+      "tipo": "venta",
+      "foto": "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=400",
+      "userId": 2
+    },
+    {
+      "id": 9,
+      "nombre": "Monitor LG UltraWide 34 pulgadas",
+      "descripcion": "Monitor panorámico 21:9, resolución 3440x1440, 144Hz. Perfecto para programación y gaming. Sin píxeles muertos, incluye cables HDMI y DisplayPort.",
+      "precio": 420,
+      "tipo": "venta",
+      "foto": "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400",
+      "userId": 1
+    },
+    {
+      "id": 10,
+      "nombre": "Teclado mecánico Keychron K2",
+      "descripcion": "Teclado mecánico inalámbrico, switches Brown, layout español. Retroiluminación RGB. Como nuevo, 3 meses de uso.",
+      "precio": 75,
+      "tipo": "venta",
+      "foto": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400",
+      "userId": 3
+    }
+  ],
+  "users": [
+
+  ]
+}
