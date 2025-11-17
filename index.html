@@ -1,16 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
   <title>Guayapop-2025</title>
 </head>
-<body>
-  <h1>Guayapop-2025</h1>
 
-  <section id="ads-container"></section>
+<body class="bg-light">
 
+  <!-- Navbar -->
+  <nav class="navbar navbar-light bg-white shadow-sm mb-4">
+    <div class="container">
+      <span class="navbar-brand mb-0 h1">📢 Wallapop</span>
+    </div>
+  </nav>
 
+  <!-- Main -->
+  <main>
+    <div class="container">
+      <h1 class="mb-4">Published Ads</h1>
+    </div>
+    <section id="ads-cards">
+      <div class="row" id="ads-container">
+        <!-- Cards will be added here -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Custom JS -->
   <script type="module" src="./js/index.js"></script>
 </body>
+
 </html>
