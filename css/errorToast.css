@@ -1,0 +1,23 @@
+
+/* Base toast styling */
+.custom-toast {
+  min-width: 300px;
+  max-width: 400px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+/* Close button styling */
+.btn-close-custom {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  transition: opacity 0.2s;
+}
+

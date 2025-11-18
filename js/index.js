@@ -1,65 +1,75 @@
-
 /**
  * ENTRY POINT: Application orchestrator
  * - Initializes controllers
  * - Listens to custom events
- * - Coordinates everything (like in Twitter project)
+ * - Coordinates everything together
  */
 
-import { loadAds } from './controllers/adsController.js';
+import { loadAds } from './controllers/ads.controller.js';
 import { loaderController } from './controllers/loader.controller.js';
+import { toastController } from './controllers/toast.controller.js';
 
 console.log('🚀 Application starting...');
 
 //  Wait for DOM to be ready
 document.addEventListener('DOMContentLoaded', () => {
   console.log('✅ DOM ready, initializing...');
-  
+
   //  Get DOM containers
   const adsSection = document.getElementById('ads-cards');          // Event bus (section)
   const loaderContainer = document.getElementById('loader-container'); // Loader injection point
-  
+  const toastContainer = document.getElementById('toast-container');   // Toast injection point
+
   // Verify elements exist
   if (!adsSection) {
     console.error('❌ Section #ads-cards not found');
     return;
   }
-  
+
   if (!loaderContainer) {
     console.error('❌ Container #loader-container not found');
     return;
   }
-  
-  //  Initialize loader controller
+
+  if (!toastContainer) {
+    console.error('❌ Container #toast-container not found');
+    return;
+  }
+
+  // Initialize controllers
   const { showLoader, hideLoader } = loaderController(loaderContainer);
-  
-  //  Listen to custom events
-  
+  const { showToast } = toastController(toastContainer);
+
+  // ✅ Listen to custom events
+
   // Event: Start fetching ads
   adsSection.addEventListener('start-fetching-ads', () => {
     console.log('📡 EVENT: start-fetching-ads → Showing loader');
     showLoader();
   });
-  
+
   // Event: Finish fetching ads
   adsSection.addEventListener('finish-fetching-ads', () => {
     console.log('📡 EVENT: finish-fetching-ads → Hiding loader');
     hideLoader();
   });
-  
-  // Ads empty ( for future use)
+
+  // Event: Ads empty (for future use)
   adsSection.addEventListener('ads-empty', () => {
     console.log('📡 EVENT: ads-empty');
-    // Future: Show toast notification
+    // Future: Could show info toast if needed
+    showToast(event.detail.message, event.detail.type);
   });
-  
-  // Event: Ads error ( for future use)
-  adsSection.addEventListener('ads-error', () => {
-    console.log('📡 EVENT: ads-error');
-    //  Show error toast
+
+  // Event: Ads error → Show error toast
+  adsSection.addEventListener('ads-error', (event) => {
+    console.log('📡 EVENT: ads-error → Showing toast');
+
+    //  Show toast with message and type from event detail
+    showToast(event.detail.message, event.detail.type);
   });
-  
-  // : Start the application
+
+  // Start the application
   console.log('🎬 Starting ads controller...');
   loadAds();
 });

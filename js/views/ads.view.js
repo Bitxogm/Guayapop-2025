@@ -38,7 +38,7 @@ export const buildAdCard = (ad) => {
           
           <!-- Description (truncated) -->
           <p class="card-text text-muted">
-            ${ad.descripcion.substring(0, 100)}...
+            ${ad.descripcion}
           </p>
           
           <!-- Price -->
