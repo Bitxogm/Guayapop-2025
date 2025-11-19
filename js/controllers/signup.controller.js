@@ -1,5 +1,5 @@
 //** Signup Controller Module **/
-
+import { constants } from '../../utils/constants.js';
 import { createUser } from '../models/signupModel.js';
 
 export const signupController = (signupForm) => {
@@ -17,7 +17,7 @@ export const signupController = (signupForm) => {
 
     // Select email field and define regex for validation
     const email = signupForm.querySelector("#email");
-    const emailRegExp = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
+    const emailRegExp = new RegExp(constants.mailRegExp);
 
     // Validate password and confirmation match
     if (password.value !== passwordConfirmation.value) {
@@ -55,7 +55,6 @@ export const signupController = (signupForm) => {
       const startEvent = new CustomEvent("start-signup");
       signupForm.dispatchEvent(startEvent);
 
-
       await createUser(email.value, password.value);
       // If validation passes, dispatch success event
       const successEvent = new CustomEvent("signup-success", {
@@ -65,6 +64,9 @@ export const signupController = (signupForm) => {
         }
       });
       signupForm.dispatchEvent(successEvent);
+        setTimeout(() => {
+        window.location.href = "/";
+      }, 3000);
     } catch (error) {
 
       // If an error occurs, dispatch validation error event

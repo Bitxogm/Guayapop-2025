@@ -59,6 +59,7 @@ export const createUser = async (email, password) => {
 
     // Response OK - safe to parse JSON
     const data = await response.json();
+    console.log('✅ user created:' , data)
     // Success - no return needed (void function)
     
   } catch (error) {

@@ -44,26 +44,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Event: Start fetching ads
   adsSection.addEventListener('start-fetching-ads', () => {
-    console.log('📡 EVENT: start-fetching-ads → Showing loader');
     showLoader();
   });
 
   // Event: Finish fetching ads
   adsSection.addEventListener('finish-fetching-ads', () => {
-    console.log('📡 EVENT: finish-fetching-ads → Hiding loader');
     hideLoader();
   });
 
   // Event: Ads empty (for future use)
-  adsSection.addEventListener('ads-empty', () => {
-    console.log('📡 EVENT: ads-empty');
-    // Future: Could show info toast if needed
+  adsSection.addEventListener('ads-empty', (event) => {
     showToast(event.detail.message, event.detail.type);
   });
 
   // Event: Ads error → Show error toast
   adsSection.addEventListener('ads-error', (event) => {
-    console.log('📡 EVENT: ads-error → Showing toast');
 
     //  Show toast with message and type from event detail
     showToast(event.detail.message, event.detail.type);

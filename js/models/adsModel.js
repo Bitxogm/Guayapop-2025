@@ -1,8 +1,15 @@
-// js/models/adsModel.js
+//** */ Ads Model*/
 
+// adsModel.js
+// Model to fetch ads data from the backend API
+
+/**
+ * Fetches ads from the backend API
+ * @returns {Promise<Array>} Array of ad objects
+ * @throws {Error} If fetching fails
+ */
 
 export const getAds = async () => {
-  console.log('🔄 MODEL: Starting fetching to backend -> sparret ...');
 
   let ads = [];
 

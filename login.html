@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="./css/loader.css">
   <link rel="stylesheet" href="./css/errorToast.css">
 
-  <title>Sign Up - Guayapop-2025</title>
+  <title>Login - Guayapop-2025</title>
 </head>
 
 <body class="bg-light">
@@ -21,10 +21,7 @@
   <!-- Navbar -->
   <nav class="navbar navbar-light bg-white shadow-sm mb-4">
     <div class="container">
-      <a href="index.html" class="navbar-brand mb-0 h1">📢 Wallapop</a>
-      <div>
-        <a href="login.html" class="btn btn-outline-primary btn-sm">Login</a>
-      </div>
+      <a href="index.html" class="btn btn-outline-primary btn-sm"">📢 Wallapop</a>
     </div>
   </nav>
 
@@ -38,12 +35,10 @@
           <div class="card shadow-sm">
             <div class="card-body p-4">
 
-              <h1 class="h3 mb-4 text-center">Create Account</h1>
-
-
+              <h1 class="h3 mb-4 text-center">Login</h1>
 
               <!-- Signup Form -->
-              <form id="signup-form">
+              <form id="login-form">
 
                 <!-- Email field -->
                 <div class="mb-3">
@@ -59,29 +54,15 @@
                   <div class="form-text">Minimum 8 characters</div>
                 </div>
 
-                <!-- Password confirmation field -->
-                <div class="mb-3">
-                  <label for="passwordConfirm" class="form-label">Confirm Password</label>
-                  <input id="passwordConfirm" type="password" class="form-control" placeholder="Repeat password"
-                    required minlength="8">
-                </div>
-
                 <!-- Submit button -->
                 <div class="d-grid">
                   <button type="submit" class="btn btn-primary">
-                    Create Account
+                    Login
                   </button>
                 </div>
               </form>
 
-              <!-- Link to login -->
-              <div class="text-center mt-3">
-                <small class="text-muted">
-                  Already have an account?
-                  <a href="login.html">Login here</a>
-                </small>
-              </div>
-
+      
             </div>
           </div>
       
@@ -97,7 +78,7 @@
   <div id="loader-container"></div>
 
   <!-- Custom JS -->
-  <script type="module" src="./js/signup.js"></script>
+  <script type="module" src="./js/login.js"></script>
 </body>
 
 </html>

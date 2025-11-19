@@ -25,20 +25,16 @@ export const loadAds = async () => {
 
   try {
     //  STATE = LOADING
-    console.log('🔄 CONTROLLER: STATE = LOADING');
     
     // Dispatch event: START fetching
     const startEvent = new CustomEvent('start-fetching-ads');
-    adsSection.dispatchEvent(startEvent);  // ✅ Dispatch on EVENT BUS
+    adsSection.dispatchEvent(startEvent);  
     
     // Fetch data from Model
-    console.log('🎮 CONTROLLER: Calling Model...');
     const ads = await getAds();
-    console.log(`🎮 CONTROLLER: Received ${ads.length} ads`);
     
     //  STATE = EMPTY
     if (ads.length === 0) {
-      console.log('📭 CONTROLLER: STATE = EMPTY (no ads)');
       adsContainer.innerHTML = buildEmptyState();
       
       //  Dispatch empty event
@@ -52,9 +48,6 @@ export const loadAds = async () => {
       return;
     }
     
-    //  STATE = SUCCESS
-    console.log('✅ CONTROLLER: STATE = SUCCESS, building HTML...');
-    
     // Build HTML using Views
     const cardsHTMLArray = ads.map(ad => buildAdCard(ad));
     const allCardsHTML = cardsHTMLArray.join('');
@@ -62,13 +55,9 @@ export const loadAds = async () => {
     
     // Insert into DOM
     adsContainer.innerHTML = completeHTML;
-    console.log('✅ CONTROLLER: Ads displayed on screen!');
     
   } catch (error) {
     //  STATE = ERROR
-    console.error('❌ CONTROLLER: STATE = ERROR');
-    console.error('❌ CONTROLLER: Error details:', error.message);
-    
     // Clear container on error
     adsContainer.innerHTML = '';
     
@@ -83,7 +72,6 @@ export const loadAds = async () => {
     
   } finally {
     // Always dispatch finish event (hide loader)
-    console.log('🏁 CONTROLLER: Dispatching finish event');
     const finishEvent = new CustomEvent('finish-fetching-ads');
     adsSection.dispatchEvent(finishEvent);
   }
