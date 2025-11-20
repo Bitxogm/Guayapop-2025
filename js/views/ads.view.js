@@ -1,4 +1,3 @@
-
 /**
  * VIEW: Functions that BUILD HTML (only return strings)
  * - DO NOT manipulate DOM
@@ -13,18 +12,23 @@
  */
 export const buildAdCard = (ad) => {
   // Default image if ad doesn't have photo
-  const imageUrl = ad.foto || 'https://via.placeholder.com/400x200?text=No+Image';
+  const image = ad.image || 'https://placehold.co/400x200?text=No+Image';
   
   // Badge color based on type
-  const badgeClass = ad.tipo === 'venta' ? 'bg-success' : 'bg-warning';
-  const badgeText = ad.tipo === 'venta' ? '💰 Selling' : '🛒 Buying';
+  const badgeClass = ad.type === 'sell' ? 'bg-success' : 'bg-warning';
+  const badgeText = ad.type === 'sell' ? '💰 Selling' : '🛒 Buying';
+  
+  // Tags badges (optional)
+  const tagsHTML = ad.tags && ad.tags.length > 0 
+    ? ad.tags.map(tag => `<span class="badge bg-secondary me-1">${tag}</span>`).join('') 
+    : '';
   
   // Return HTML string (template literal)
   return `
     <div class="col-md-4 mb-4">
       <div class="card h-100">
         <!-- Ad image -->
-        <img src="${imageUrl}" class="card-img-top" alt="${ad.nombre}" style="height: 200px; object-fit: cover;">
+        <img src="${image}" class="card-img-top" alt="${ad.name}" style="height: 200px; object-fit: cover;">
         
         <!-- Card body -->
         <div class="card-body">
@@ -33,16 +37,19 @@ export const buildAdCard = (ad) => {
             ${badgeText}
           </span>
           
+          <!-- Tags badges -->
+          ${tagsHTML ? `<div class="mb-2">${tagsHTML}</div>` : ''}
+          
           <!-- Product name -->
-          <h5 class="card-title">${ad.nombre}</h5>
+          <h5 class="card-title">${ad.name}</h5>
           
           <!-- Description (truncated) -->
           <p class="card-text text-muted">
-            ${ad.descripcion}
+            ${ad.description.length > 100 ? ad.description.substring(0, 100) + '...' : ad.description}
           </p>
           
           <!-- Price -->
-          <h4 class="text-primary">${ad.precio}€</h4>
+          <h4 class="text-primary">${ad.price}€</h4>
         </div>
       </div>
     </div>
