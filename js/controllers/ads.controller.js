@@ -5,7 +5,7 @@ import { buildAdCard, buildAdsList } from '../views/ads.view.js';
 import { buildEmptyState } from '../views/states.view.js';
 
 
-export const loadAds = async () => {
+export const adsController = async () => {
   console.log('🎮 CONTROLLER: Starting loadAds...');
   
   // Get DOM references

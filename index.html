@@ -20,15 +20,22 @@
   <!-- Navbar -->
   <nav class="navbar navbar-light bg-white shadow-sm mb-4">
     <div class="container">
-      <span class="navbar-brand mb-0 h1">📢 Wallapop</span>
+      <!-- Logo/Brand -->
+      <a class="navbar-brand" href="/">
+        <span class="fs-4">📢 Wallapop</span>
+      </a>
+
+      <!-- Session container - buttons will be built here by sessionController -->
+      <div id="session-container" class="d-flex gap-2">
+        <!-- Buttons inserted dynamically by JavaScript -->
+      </div>
     </div>
   </nav>
-
   <!-- Main -->
   <main>
     <div class="container">
       <h1 class="mb-4">Published Ads</h1>
-      
+
       <section id="ads-cards">
         <div class="row" id="ads-container">
           <!-- Cards will be added here -->

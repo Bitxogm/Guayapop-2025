@@ -55,8 +55,8 @@ export const loginController = (loginForm) => {
       const token = await loginUser(email, password);
 
       // Store token in localStorage
-      localStorage.setItem("accessToken", token);
-      console.log('Token guardado' , token)
+      localStorage.setItem(constants.tokenKey, token);
+      console.log('✅ Token stored in localStorage', token);
 
       // If login is successful, dispatch success event
       const successEvent = new CustomEvent("login-success", {
@@ -71,7 +71,7 @@ export const loginController = (loginForm) => {
       setTimeout(() => {
         console.log('🔄 Redirecting to home...');
         window.location.href = "/";
-      }, 2000);
+      }, 3000);
 
     } catch (error) {
       // If an error occurs, dispatch validation error event
