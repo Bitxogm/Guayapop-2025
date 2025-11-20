@@ -56,6 +56,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Initialize controllers
   const { showLoader, hideLoader } = loaderController(loaderContainer);
   const { showToast } = toastController(toastContainer);
+
+  
   
   // Listen to loader events
   adsSection.addEventListener("start-fetching-ads", (event) => {

@@ -1,14 +1,7 @@
 /**
- * VIEW: Functions that BUILD HTML (only return strings)
- * - DO NOT manipulate DOM
- * - DO NOT fetch data
- * - Only construct HTML with template literals
- */
-
-/**
- * Builds HTML for ONE ad card
+ * Builds HTML for ONE ad card (without wrapper)
  * @param {Object} ad - Ad object from backend
- * @returns {String} - HTML string for the card
+ * @returns {String} - HTML string for the card content
  */
 export const buildAdCard = (ad) => {
   // Default image if ad doesn't have photo
@@ -23,48 +16,33 @@ export const buildAdCard = (ad) => {
     ? ad.tags.map(tag => `<span class="badge bg-secondary me-1">${tag}</span>`).join('') 
     : '';
   
-  // Return HTML string (template literal)
+  // Return HTML string -
   return `
-    <div class="col-md-4 mb-4">
-      <div class="card h-100">
-        <!-- Ad image -->
-        <img src="${image}" class="card-img-top" alt="${ad.name}" style="height: 200px; object-fit: cover;">
+    <div class="card h-100 ad-card-clickable">
+      <!-- Ad image -->
+      <img src="${image}" class="card-img-top" alt="${ad.name}" style="height: 200px; object-fit: cover;">
+      
+      <!-- Card body -->
+      <div class="card-body">
+        <!-- Type badge -->
+        <span class="badge ${badgeClass} mb-2">
+          ${badgeText}
+        </span>
         
-        <!-- Card body -->
-        <div class="card-body">
-          <!-- Type badge -->
-          <span class="badge ${badgeClass} mb-2">
-            ${badgeText}
-          </span>
-          
-          <!-- Tags badges -->
-          ${tagsHTML ? `<div class="mb-2">${tagsHTML}</div>` : ''}
-          
-          <!-- Product name -->
-          <h5 class="card-title">${ad.name}</h5>
-          
-          <!-- Description (truncated) -->
-          <p class="card-text text-muted">
-            ${ad.description.length > 100 ? ad.description.substring(0, 100) + '...' : ad.description}
-          </p>
-          
-          <!-- Price -->
-          <h4 class="text-primary">${ad.price}€</h4>
-        </div>
+        <!-- Tags badges -->
+        ${tagsHTML ? `<div class="mb-2">${tagsHTML}</div>` : ''}
+        
+        <!-- Product name -->
+        <h5 class="card-title">${ad.name}</h5>
+        
+        <!-- Description (truncated) -->
+        <p class="card-text text-muted">
+          ${ad.description.length > 100 ? ad.description.substring(0, 100) + '...' : ad.description}
+        </p>
+        
+        <!-- Price -->
+        <h4 class="text-primary">${ad.price}€</h4>
       </div>
-    </div>
-  `;
-};
-
-/**
- * Builds HTML for the complete ads list (grid container)
- * @param {String} cardsHTML - All cards HTML joined together
- * @returns {String} - HTML string with grid wrapper
- */
-export const buildAdsList = (cardsHTML) => {
-  return `
-    <div class="row">
-      ${cardsHTML}
     </div>
   `;
 };

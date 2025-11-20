@@ -26,7 +26,6 @@ export const createAdController = (createAdForm) => {
     // Tag is diferent because it's a multi select with the same name
     const tags = formData.getAll('tags');
 
-
     //Build the object for model
     const adData = {
       name,
@@ -55,12 +54,10 @@ export const createAdController = (createAdForm) => {
       setTimeout(() => {
         window.location.href = `/`;
       }, 3000);
-      // Optionally, redirect to the ad details page or show a success message
 
     } catch (error) {
       const errorMessage = '☢️ CONTROLLER: Could not create ad: ' + error.message;
       console.error(errorMessage);
-      // Optionally, display the error message to the user
 
       const errorEvent = new CustomEvent("create-ad-validation-error", {
         detail: {
