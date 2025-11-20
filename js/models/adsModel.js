@@ -15,7 +15,7 @@ export const getAds = async () => {
 
   try {
     // Fetch ads endpoint
-    const response = await fetch('http://127.0.0.1:8000/api/ads');
+    const response = await fetch('http://127.0.0.1:8000/api/products');
     
     // If response is not OK, throw error
     if (!response.ok) {

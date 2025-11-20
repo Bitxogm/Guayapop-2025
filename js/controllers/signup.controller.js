@@ -59,7 +59,7 @@ export const signupController = (signupForm) => {
       // If validation passes, dispatch success event
       const successEvent = new CustomEvent("signup-success", {
         detail: {
-          message: "Signup successful!",
+          message: "😀 Signup successful!",
           type: "success"
         }
       });
