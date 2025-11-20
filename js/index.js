@@ -58,8 +58,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   const { showToast } = toastController(toastContainer);
   
   // Listen to loader events
-  adsSection.addEventListener("start-fetching-ads", () => {
+  adsSection.addEventListener("start-fetching-ads", (event) => {
     console.log('📡 EVENT: start-fetching-ads → Showing loader');
+    showToast(event.detail.message, event.detail.type); 
     showLoader();
   });
   
@@ -75,10 +76,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
   
   // Listen to empty state events
-  adsSection.addEventListener("ads-empty", (event) => {
-    console.log('📡 EVENT: ads-empty');
-    showToast(event.detail.message, event.detail.type);
-  });
+  // adsSection.addEventListener("ads-empty", (event) => {
+  //   console.log('📡 EVENT: ads-empty');
+  //   showToast(event.detail.message, event.detail.type);
+  // });
   
   // Initialize ads controller
   console.log('🎮 Calling adsController...');
