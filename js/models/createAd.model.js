@@ -1,6 +1,6 @@
 //** Create Ad Model */
 
-import { constants}  from '../../utils/constants.js';
+import { constants } from '../utils/constants.js';
 
 /**
  * Creates a new ad by sending ad data to the backend API
@@ -18,14 +18,15 @@ import { constants}  from '../../utils/constants.js';
 export const createAd = async (adData) => {
 
   // Get JWT token from localStorage
-    const token = localStorage.getItem(constants.tokenKey);
-    if (!token) {
-      throw new Error('User is not authenticated');
-    }
+  const token = localStorage.getItem(constants.tokenKey);
+  if (!token) {
+    throw new Error('User is not authenticated');
+  }
   try {
+    const url = `${constants.apiUrl}/api/products/`;
     console.log('🔄 MODEL: Creating add...');
 
-    const response = await fetch('http://localhost:8000/api/products', {
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -36,7 +37,7 @@ export const createAd = async (adData) => {
         description: adData.description,
         price: adData.price,
         type: adData.type,
-        image: adData.image || "",
+        image: adData.image || "https://placehold.co/800x400?text=No+Image",
         tags: adData.tags || []
       })
     });

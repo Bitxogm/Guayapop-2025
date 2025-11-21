@@ -1,10 +1,10 @@
-//** Create Ad Page */
+//** Create Ad Page - VERSIÓN CONSISTENTE */
 
 import { createAdController } from './controllers/createAd.controller.js';
 import { sessionController } from './controllers/session.controller.js';
 import { toastController } from './controllers/toast.controller.js';
 import { loaderController } from './controllers/loader.controller.js';
-import { constants } from '../utils/constants.js'; 
+import { constants } from './utils/constants.js';  // ← FIX: Sin ../
 
 console.log('🚀 Create Ad page starting...');
 
@@ -14,6 +14,13 @@ const token = localStorage.getItem(constants.tokenKey);
 if (!token) {
   console.log('⚠️ USER NOT AUTHENTICATED');
   console.log('🔄 Redirecting to home...');
+  
+  //* Save pending toast message
+  localStorage.setItem('pendingToast', JSON.stringify({
+    message: 'You must login to create an ad',
+    type: 'warning'
+  }));
+  
   window.location.href = 'index.html';
   throw new Error('Authentication required');
 }
@@ -44,23 +51,32 @@ document.addEventListener('DOMContentLoaded', () => {
   const { showToast } = toastController(toastContainer);
   const { showLoader, hideLoader } = loaderController(loaderContainer);
   
-  //* Event listeners for loader events
-  createAdForm.addEventListener('start-create-ad', () => {
+  //* Event listeners - START (loader + toast)
+  createAdForm.addEventListener('start-create-ad', (event) => {
     console.log('📡 EVENT: start-create-ad');
+    showToast(event.detail.message, event.detail.type);  // ← AÑADIDO
     showLoader();
   });
   
+  //* Event listeners - FINISH (hide loader)
   createAdForm.addEventListener('finish-create-ad', () => {
     console.log('📡 EVENT: finish-create-ad');
     hideLoader();
   });
   
-  //* Event listeners for toast/error events
+  //* Event listeners - ERROR (toast)
+  createAdForm.addEventListener('create-ad-error', (event) => {
+    console.log('📡 EVENT: create-ad-error');
+    showToast(event.detail.message, event.detail.type);
+  });
+  
+  //* Event listeners - VALIDATION ERROR (toast)
   createAdForm.addEventListener('create-ad-validation-error', (event) => {
     console.log('📡 EVENT: create-ad-validation-error');
     showToast(event.detail.message, event.detail.type);
   });
   
+  //* Event listeners - SUCCESS (toast)
   createAdForm.addEventListener('create-ad-success', (event) => {
     console.log('📡 EVENT: create-ad-success');
     showToast(event.detail.message, event.detail.type);

@@ -1,7 +1,6 @@
 //** Create Ad Controller */
 
 import { createAd } from '../models/createAd.model.js';
-import { signupController } from './signup.controller.js';
 
 
 // TODO:Si el usuario no ha iniciado sesion redireccionar a pantalla de anuncios
@@ -46,7 +45,7 @@ export const createAdController = (createAdForm) => {
       // If ad, dispatch success event
       const successEvent = new CustomEvent("create-ad-success", {
         detail: {
-          message: "😀 Create Ad successful!",
+          message: "😀 Ad created!!➡️ Go home",
           type: "success"
         }
       });

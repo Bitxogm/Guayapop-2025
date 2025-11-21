@@ -5,7 +5,8 @@
  */
 export const buildAdCard = (ad) => {
   // Default image if ad doesn't have photo
-  const image = ad.image || 'https://placehold.co/400x200?text=No+Image';
+  const placeHolderImage = 'https://placehold.co/400x200?text=No+Image';
+  const image = ad.image ?? placeHolderImage;
   
   // Badge color based on type
   const badgeClass = ad.type === 'sell' ? 'bg-success' : 'bg-warning';

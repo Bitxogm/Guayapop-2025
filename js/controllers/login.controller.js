@@ -7,7 +7,7 @@
  * Handles form validation and user authentication
  */
 
-import { constants } from "../../utils/constants.js";
+import { constants } from "../utils/constants.js";
 import { loginUser } from "../models/loginModel.js";
 
 export const loginController = (loginForm) => {  

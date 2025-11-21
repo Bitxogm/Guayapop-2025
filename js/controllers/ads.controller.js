@@ -3,8 +3,13 @@
 import { getAds } from '../models/adsModel.js';
 import { buildAdCard } from '../views/ads.view.js';
 import { buildEmptyState } from '../views/states.view.js';
-import { constants } from '/../utils/constants.js';
+import { constants } from '../utils/constants.js';
 
+
+/**
+ * 
+ * @returns 
+ */
 export const adsController = async () => {
   console.log('🎮 CONTROLLER: Starting loadAds...');
 
@@ -73,9 +78,7 @@ export const adsController = async () => {
       window.location.href = `ad-detail.html?id=${ad.id}`;
     });
     
-    // ❌ QUITAMOS ESTO:
-    // cardWrapper.style.cursor = 'pointer';
-    
+    // Append card wrapper to grid row
     gridRow.appendChild(cardWrapper);
   });
 

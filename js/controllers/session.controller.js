@@ -8,7 +8,7 @@
  * Reads localStorage directly (no session.js utility needed)
  */
 
-import { constants } from "../../utils/constants.js";
+import { constants } from "../utils/constants.js";
 import { buildAuthenticatedUserSession, buildUnauthenticatedUserSession } from "../views/session.view.js";
 
 /**

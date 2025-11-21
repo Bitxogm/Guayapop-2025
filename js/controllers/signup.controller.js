@@ -1,5 +1,5 @@
 //** Signup Controller Module **/
-import { constants } from '../../utils/constants.js';
+import { constants } from '../utils/constants.js';
 import { createUser } from '../models/signupModel.js';
 
 export const signupController = (signupForm) => {
