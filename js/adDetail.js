@@ -85,6 +85,11 @@ document.addEventListener('DOMContentLoaded', () => {
     hideLoader();
   });
 
+  adDetailSection.addEventListener('ad-detail-success', (event) => { 
+    console.log('📡 EVENT: ad-detail-success');
+    showToast(event.detail.message, event.detail.type);
+   });
+
   //* Event listeners for error events
   adDetailSection.addEventListener('ad-detail-error', (event) => {
     console.log('📡 EVENT: ad-detail-error');
@@ -111,6 +116,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   adDetailSection.addEventListener('delete-ad-error', (event) => {
     console.log('📡 EVENT: delete-ad-error');
+    showToast(event.detail.message, event.detail.type);
+  });
+
+  adDetailSection.addEventListener('delete-ad-success', (event) => {
+    console.log('📡 EVENT: delete-ad-success');
     showToast(event.detail.message, event.detail.type);
   });
 

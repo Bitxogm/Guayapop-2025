@@ -1,12 +1,23 @@
-//** Ad Detail Controller - VERSIÓN LIMPIA */
+//** Ad Detail Controller 
 
 import { getAdDetail, getUserData, deleteAd } from '../models/adDetailModel.js';
 import { buildAdDetailCard } from '../views/adDetail.view.js';
 
 /**
  * Fetches and displays a single ad detail
+ * 
+ * Handles four possible states:
+ * - LOADING: Shows loader and info toast
+ * - ERROR: Shows error toast, alert, and redirects to home
+ * - NOT FOUND: Shows warning toast, alert, and redirects to home
+ * - SUCCESS: Shows ad detail with success toast
+ * 
+ * @async
+ * @function adDetailController
  * @param {HTMLElement} adDetailContainer - DOM element where ad will be rendered
  * @param {string} adId - ID of the ad to fetch
+ * @returns {Promise<void>}
+
  */
 export const adDetailController = async (adDetailContainer, adId) => {
   console.log('⚙️ CONTROLLER: Starting adDetailController for ad:', adId);
@@ -20,7 +31,8 @@ export const adDetailController = async (adDetailContainer, adId) => {
   }
 
   /**
-   * Adds event listeners to Edit and Delete buttons (if they exist)
+   * Adds event listeners to Edit and Delete buttons if the current user is the owner of the ad
+   * @private
    * @param {Object} ad - Ad object
    */
   const handleOwnerActions = (ad) => {
@@ -51,22 +63,37 @@ export const adDetailController = async (adDetailContainer, adId) => {
         try {
           console.log('🗑️ Deleting ad:', ad.id);
 
-          // //* Dispatch start event (show loader)
+          //* 1->  Show deleting toast + loader
           adDetailSection.dispatchEvent(new CustomEvent('start-deleting-ad', {
-            detail: { message: '😀 Deleted Ad', type: 'success' }
+            detail: { message: 'Deleting ad...', type: 'info' }
           }));
 
-          //* Delete ad from backend
-          await deleteAd(ad.id);
+          //* 2-> Delete from backend , promise + delay
+          await Promise.all([
+            deleteAd(ad.id),
+            new Promise(resolve => setTimeout(resolve, 800))  // ✅ Delay mínimo
+          ]);
 
-          //* Redirect to home
-          console.log('✅ Ad deleted successfully, redirecting to home...');
+          //* 3 -> Hide loader
+          adDetailSection.dispatchEvent(new CustomEvent('finish-deleting-ad'));
+
+          //* 4 -> Show success toast
+          adDetailSection.dispatchEvent(new CustomEvent('delete-ad-success', {
+            detail: { message: '✅ Ad deleted successfully!', type: 'success' }
+          }));
+
+          //* 5 -> Wait for user to see the success toast
+          console.log('⏳ Waiting 2 seconds before redirect...');
+          await new Promise(resolve => setTimeout(resolve, 800));
+
+          //* 6 -> Redirect to home (will show loading/success toasts there)
+          console.log('🔄 Redirecting to home...');
           window.location.href = 'index.html';
 
         } catch (error) {
           console.error('❌ Error deleting ad:', error);
 
-          //* Dispatch error event
+          //* Show error toast
           adDetailSection.dispatchEvent(new CustomEvent('delete-ad-error', {
             detail: {
               message: error.message || 'Failed to delete ad',
@@ -75,17 +102,22 @@ export const adDetailController = async (adDetailContainer, adId) => {
           }));
 
         } finally {
-          //* Always hide loader
+          //* Ensure loader is hidden
           adDetailSection.dispatchEvent(new CustomEvent('finish-deleting-ad'));
         }
       });
     }
-  };
+
+  }
+
+  //* sdtep 1: Fetch ad (required)
 
   let ad = null;
+  let hasError = false;
+  let errorMessage = '';
 
   try {
-    //* Dispatch start event
+    //* Dispatch start event (show loader + info toast)
     adDetailSection.dispatchEvent(new CustomEvent('start-fetching-ad-detail', {
       detail: { message: 'Loading ad details...', type: 'info' }
     }));
@@ -101,26 +133,56 @@ export const adDetailController = async (adDetailContainer, adId) => {
     console.log('✅ CONTROLLER: Ad loaded successfully');
 
   } catch (error) {
+    //* STATE = ERROR or NOT FOUND
     console.error('❌ CONTROLLER: Error loading ad:', error);
 
-    //* Dispatch error event
-    adDetailSection.dispatchEvent(new CustomEvent('ad-detail-error', {
-      detail: {
-        message: error.message || 'Failed to load ad',
-        type: 'error'
-      }
-    }));
+    hasError = true;
+    errorMessage = error.message || 'Failed to load ad';
 
-    //* Show error and redirect 
-    alert(error.message || 'Ad not found');
-    window.location.href = 'index.html';
-    return; // Stop execution
+    //* Determine if it's 404 or other error
+    const is404 = error.message === 'Ad not found' || error.message.includes('404');
+
+    if (is404) {
+      //* Dispatch not found event (warning toast)
+      adDetailSection.dispatchEvent(new CustomEvent('ad-not-found', {
+        detail: {
+          message: 'Ad not found',
+          type: 'warning'
+        }
+      }));
+    } else {
+      //* Dispatch error event (error toast)
+      adDetailSection.dispatchEvent(new CustomEvent('ad-detail-error', {
+        detail: {
+          message: errorMessage,
+          type: 'error'
+        }
+      }));
+    }
 
   } finally {
     //* Always hide loader
     adDetailSection.dispatchEvent(new CustomEvent('finish-fetching-ad-detail'));
   }
 
+  //* If error occurred, show alert and redirect
+  
+  if (hasError) {
+    //* Show error alert and redirect 
+    alert(errorMessage);
+    window.location.href = 'index.html';
+    return; // Stop execution
+  }
+
+  //*  Dispatch success event
+  adDetailSection.dispatchEvent(new CustomEvent('ad-detail-success', {
+    detail: {
+      message: '😀 Ad loaded successfully',
+      type: 'success'
+    }
+  }));
+
+  //*  Check ownership of ad
   let isOwner = false;
 
   try {
@@ -132,10 +194,10 @@ export const adDetailController = async (adDetailContainer, adId) => {
     console.log('🔑 Is owner?', isOwner);
 
   } catch (error) {
-    //* Silent fail - user not authenticated
     console.log('👤 User not authenticated');
   }
 
+  //* Render ad with or without owner buttons
   const adHTML = buildAdDetailCard(ad, isOwner);
   adDetailContainer.innerHTML = adHTML;
 
