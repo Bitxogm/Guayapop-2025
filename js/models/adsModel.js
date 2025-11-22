@@ -37,7 +37,7 @@ export const getAds = async () => {
 
   } catch (error) {
     // Throw error to controller
-    throw new Error('☢️ MODEL: Could not load ads: ' + error.message);
+    throw new Error(' MODEL: Could not load ads: ' + error.message);
   }
 
   return ads;

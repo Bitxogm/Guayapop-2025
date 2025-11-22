@@ -1,3 +1,6 @@
+/* The provided code is an entry point script written in JavaScript for the home page of a web
+application. Here is a breakdown of what the code does: */
+
 //* ============================================
 //* index.js - Entry Point for Home Page
 //* ============================================
@@ -69,6 +72,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.log('📡 EVENT: finish-fetching-ads → Hiding loader');
     hideLoader();
   });
+
+  adsSection.addEventListener('finish-load-ads', (event) => {
+    console.log('📡 EVENT: finish-load-ads ');
+    showToast(event.detail.message, event.detail.type);
+  });
+
+  adsSection.addEventListener('ads-empty', (event) => {
+    console.log('📡 EVENT: ads-empty');
+    showToast(event.detail.message, event.detail.type);
+  })
   
   // Listen to error events
   adsSection.addEventListener("ads-error", (event) => {
@@ -76,11 +89,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     showToast(event.detail.message, event.detail.type);
   });
   
-  // Listen to empty state events
-  // adsSection.addEventListener("ads-empty", (event) => {
-  //   console.log('📡 EVENT: ads-empty');
-  //   showToast(event.detail.message, event.detail.type);
-  // });
+
   
   // Initialize ads controller
   console.log('🎮 Calling adsController...');
