@@ -17,7 +17,7 @@ export const getAds = async () => {
 
   try {
     //* Build URL with constants
-    const url = `${constants.apiUrl}/api/products/`;
+    const url = `${constants.apiUrl}/api/products/?_sort=createdAt&_order=desc`;
 
     //* Fetch ads from backend
     const response = await fetch(url);

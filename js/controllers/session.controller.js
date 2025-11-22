@@ -1,52 +1,83 @@
-//* ============================================
-//* session.controller.js - SIMPLIFIED
-//* ============================================
+//** Session Controller */
+
+import { constants } from '../utils/constants.js';
 
 /**
- * CONTROLLER: Session
- * Manages navbar buttons based on authentication state
- * Reads localStorage directly (no session.js utility needed)
- */
-
-import { constants } from "../utils/constants.js";
-import { buildAuthenticatedUserSession, buildUnauthenticatedUserSession } from "../views/session.view.js";
-
-/**
- * Initialize session controller
- * Builds appropriate navbar buttons and handles logout
- * @param {HTMLElement} sessionContainer - Container for session buttons
+ * Session Controller - Builds navbar buttons dynamically
+ * @param {HTMLElement} sessionContainer - Container where buttons will be rendered
  */
 export const sessionController = (sessionContainer) => {
   console.log('🎮 SESSION CONTROLLER: Initializing...');
-  
-  // ✅ Read token directly from localStorage
+
+  //* Check if user is authenticated
   const token = localStorage.getItem(constants.tokenKey);
-  
-  if (token) {
-    // ✅ User authenticated - show Create Ad + Logout
-    console.log('🔐 User authenticated: true');
-    sessionContainer.innerHTML = buildAuthenticatedUserSession();
+  const isAuthenticated = !!token;
+
+  //* Clear container
+  sessionContainer.innerHTML = '';
+
+  if (isAuthenticated) {
+    //* User is logged in → Show greeting + Create Ad + Logout buttons
     
-    // Add logout event listener
-    const closeSessionButton = sessionContainer.querySelector("#closeSession");
-    if (closeSessionButton) {
-      closeSessionButton.addEventListener("click", () => {
-        console.log('🚪 Logout button clicked');
-        console.log('🗑️ Removing token from localStorage');
-        
-        // ✅ Remove token directly
-        localStorage.removeItem(constants.tokenKey);
-        
-        // ✅ Recursively call sessionController to rebuild UI
-        console.log('🔄 Rebuilding session UI...');
-        sessionController(sessionContainer);
-      });
+    //* Get username from token
+    let shortName = 'User';
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const username = payload.username;
+      shortName = username ? username.split('@')[0] : 'User';
+    } catch (error) {
+      console.error('❌ Error decoding token:', error);
     }
+    
+    //* Greeting text
+    const greetingSpan = document.createElement('span');
+    greetingSpan.classList.add('text-success', 'me-5', 'fw-normal', 'fs-4');
+    greetingSpan.textContent = ` 👋🏻 Hello, ${shortName} !`;
+    
+    //* Create Ad button
+    const createAdButton = document.createElement('a');
+    createAdButton.href = 'create-ad.html';
+    createAdButton.classList.add('btn', 'btn-primary', 'btn-sm', 'me-2');
+    createAdButton.textContent = '➕ Create Ad';
+
+    //* Logout button
+    const logoutButton = document.createElement('button');
+    logoutButton.classList.add('btn', 'btn-outline-danger', 'btn-sm');
+    logoutButton.textContent = '🚪 Logout';
+
+    //* Logout event listener
+    logoutButton.addEventListener('click', () => {
+      console.log('🚪 Logging out...');
+      
+      //* Clear token
+      localStorage.removeItem(constants.tokenKey);
+      
+      //* Redirect to home
+      window.location.href = 'index.html';
+    });
+
+    //* Append all elements
+    sessionContainer.appendChild(greetingSpan);
+    sessionContainer.appendChild(createAdButton);
+    sessionContainer.appendChild(logoutButton);
+
   } else {
-    // ❌ User NOT authenticated - show Login + Sign Up
-    console.log('🔐 User authenticated: false');
-    sessionContainer.innerHTML = buildUnauthenticatedUserSession();
+    //* User is NOT logged in → Show Login + Signup buttons
+    
+    const loginButton = document.createElement('a');
+    loginButton.href = 'login.html';
+    loginButton.classList.add('btn', 'btn-outline-primary', 'btn-sm', 'me-2');
+    loginButton.textContent = '🔐 Login';
+
+    const signupButton = document.createElement('a');
+    signupButton.href = 'signup.html';
+    signupButton.classList.add('btn', 'btn-primary', 'btn-sm');
+    signupButton.textContent = '📝 Sign Up';
+
+    sessionContainer.appendChild(loginButton);
+    sessionContainer.appendChild(signupButton);
   }
-  
+
+  console.log('🔐 User authenticated:', isAuthenticated);
   console.log('✅ SESSION CONTROLLER: Initialized');
 };

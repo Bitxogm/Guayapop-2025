@@ -59,12 +59,6 @@ export const adDetailController = async (adDetailContainer, adId) => {
           //* Delete ad from backend
           await deleteAd(ad.id);
 
-          // //* Save success toast for home page
-          // localStorage.setItem('pendingToast', JSON.stringify({
-          //   message: 'Ad deleted successfully',
-          //   type: 'success'
-          // }));
-
           //* Redirect to home
           console.log('✅ Ad deleted successfully, redirecting to home...');
           window.location.href = 'index.html';
@@ -117,7 +111,7 @@ export const adDetailController = async (adDetailContainer, adId) => {
       }
     }));
 
-    //* Show error and redirect (patrón del profesor)
+    //* Show error and redirect 
     alert(error.message || 'Ad not found');
     window.location.href = 'index.html';
     return; // Stop execution
@@ -141,7 +135,6 @@ export const adDetailController = async (adDetailContainer, adId) => {
     //* Silent fail - user not authenticated
     console.log('👤 User not authenticated');
   }
-
 
   const adHTML = buildAdDetailCard(ad, isOwner);
   adDetailContainer.innerHTML = adHTML;

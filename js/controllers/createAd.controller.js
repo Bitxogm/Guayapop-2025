@@ -2,7 +2,6 @@
 
 import { createAd } from '../models/createAd.model.js';
 
-
 // TODO:Si el usuario no ha iniciado sesion redireccionar a pantalla de anuncios
 // TODO: Mostrar un toast informando del motivo
 export const createAdController = (createAdForm) => {

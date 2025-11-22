@@ -38,7 +38,8 @@ export const createAd = async (adData) => {
         price: adData.price,
         type: adData.type,
         image: adData.image || "https://placehold.co/800x400?text=No+Image",
-        tags: adData.tags || []
+        tags: adData.tags || [], 
+        createAd: new Date().toISOString()
       })
     });
 

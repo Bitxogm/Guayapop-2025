@@ -16,8 +16,6 @@ import { sessionController } from "./controllers/session.controller.js";
 
 console.log('🚀 Index page starting...');
 
-
-
 document.addEventListener('DOMContentLoaded', async () => {
   console.log('✅ DOM ready, initializing index page...');
   
@@ -58,22 +56,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Initialize controllers
   const { showLoader, hideLoader } = loaderController(loaderContainer);
   const { showToast } = toastController(toastContainer);
-
-  // Pending toast notifications 
-  // const pendingToast = localStorage.getItem('pendingToast');
-  // if (pendingToast) {
-  //   try {
-  //     const { message, type } = JSON.parse(pendingToast);
-  //     console.log('📬 Showing pending toast:', message);
-  //     showToast(message, type);
-  //     // Clear the pending toast
-  //     localStorage.removeItem('pendingToast');
-  //   } catch (error) {
-  //     console.error('❌ Error parsing pending toast:', error);
-  //     localStorage.removeItem('pendingToast');
-  //   }
-  // }
   
+  // Event listeners  
   // Listen to loader events
   adsSection.addEventListener("start-fetching-ads", (event) => {
     console.log('📡 EVENT: start-fetching-ads → Showing loader');

@@ -21,28 +21,45 @@ export const adsController = async () => {
     return;
   }
 
+  //* Check authentication
   const token = localStorage.getItem(constants.tokenKey);
   const isAuthenticated = !!token;
+  
+  //* Get username from token (if authenticated)
+  let username = null;
+  if (isAuthenticated && token) {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      username = payload.username;
+      console.log('👤 Username from token:', username);
+    } catch (error) {
+      console.error('❌ Error decoding token:', error);
+    }
+  }
 
   let ads = [];
 
   try {
-    // Dispatch start event
+    //* Dispatch start event
     const startEvent = new CustomEvent('start-fetching-ads', {
       detail: { message: 'Fetching ads...', type: 'info' }
     });
     adsSection.dispatchEvent(startEvent);
 
+    //* Fetch data from Model
     ads = await getAds();
 
   } catch (error) {
     console.error('❌ CONTROLLER: Error fetching ads:', error);
-    
+
     const errorEvent = new CustomEvent('ads-error', {
-      detail: { message: error.message, type: 'error' }
+      detail: {
+        message: error.message,
+        type: 'error'
+      }
     });
     adsSection.dispatchEvent(errorEvent);
-    
+
     adsContainer.innerHTML = '';
 
   } finally {
@@ -50,14 +67,14 @@ export const adsController = async () => {
     adsSection.dispatchEvent(finishEvent);
   }
 
-  // Empty state
+  //* STATE = EMPTY
   if (ads.length === 0) {
     console.log('📭 CONTROLLER: No ads found');
-    adsContainer.innerHTML = buildEmptyState(isAuthenticated);
+    adsContainer.innerHTML = buildEmptyState(isAuthenticated, username);  
     return;
   }
 
-  // Success state
+  //* STATE = SUCCESS
   console.log(`✅ CONTROLLER: Building ${ads.length} ad cards...`);
 
   adsContainer.innerHTML = '';
@@ -71,14 +88,11 @@ export const adsController = async () => {
     
     cardWrapper.innerHTML = buildAdCard(ad);
     
-    // Add click event listener
     cardWrapper.addEventListener('click', () => {
       console.log(`🖱️ Card clicked, navigating to ad detail: ${ad.id}`);
-      // Get the ad ID from the card data
       window.location.href = `ad-detail.html?id=${ad.id}`;
     });
     
-    // Append card wrapper to grid row
     gridRow.appendChild(cardWrapper);
   });
 
