@@ -51,7 +51,10 @@ export const adsController = async () => {
   try {
     //* Dispatch start event
     const startEvent = new CustomEvent('start-fetching-ads', {
-      detail: { message: 'Fetching ads...', type: 'info' }
+      detail: {
+         message: '🔎 Fetching ads...',
+          type: 'info' 
+        }
     });
     adsSection.dispatchEvent(startEvent);
 

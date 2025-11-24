@@ -1,11 +1,5 @@
-//* ============================================
 //* loginModel.js
-//* ============================================
 
-/**
- * MODEL: Login
- * Handles user authentication via backend API
- */
 
 /**
  * Authenticates user and returns JWT token

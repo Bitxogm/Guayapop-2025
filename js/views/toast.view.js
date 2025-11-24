@@ -6,6 +6,11 @@ export const buildToast = (message, type ) => {
       icon: '❌',
       title: 'Error'
     },
+    warning: {
+      bgClass: 'bg-warning',
+      icon: '⚠️',
+      title: 'Warning'
+    },
     success: {
       bgClass: 'bg-success',
       icon: '✅',

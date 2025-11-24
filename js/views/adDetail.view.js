@@ -9,9 +9,9 @@ export const buildAdDetailCard = (ad, isOwner = false) => {
     ? ad.tags.map(tag => `<span class="badge bg-secondary me-1">${tag}</span>`).join('') 
     : '';
   
-  //* Owner info (if expanded)
-  const ownerHTML = ad.user 
-    ? `<p class="mb-1">👤 Published by: <strong>${ad.user.username}</strong></p>`
+  //* Owner info 
+  const ownerHTML = ad.user
+    ? `<p class="mb-1">👤 Published by: <strong>${ad.user.username.split('@')[0]}</strong></p>`
     : '';
   
   const actionButtonsHTML = isOwner 
@@ -59,7 +59,7 @@ export const buildAdDetailCard = (ad, isOwner = false) => {
         
         <!-- Metadata with owner info -->
         <div class="text-muted small mb-3">
-          ${ownerHTML}
+      ${ownerHTML}
           <p class="mb-1">📅 Published: ${createdDate}</p>
           <p class="mb-0">🆔 Ad ID: ${ad.id}</p>
         </div>

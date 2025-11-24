@@ -1,31 +1,23 @@
-//** Create Ad Page - VERSIÓN CONSISTENTE */
+//** Create Ad Page 
 
 import { createAdController } from './controllers/createAd.controller.js';
 import { sessionController } from './controllers/session.controller.js';
 import { toastController } from './controllers/toast.controller.js';
 import { loaderController } from './controllers/loader.controller.js';
-import { constants } from './utils/constants.js';  // ← FIX: Sin ../
+import { constants } from './utils/constants.js'; 
 
 console.log('🚀 Create Ad page starting...');
 
-//* PROTECTION: Check authentication FIRST
+//* Check authentication 
 const token = localStorage.getItem(constants.tokenKey);
 
 if (!token) {
   console.log('⚠️ USER NOT AUTHENTICATED');
   console.log('🔄 Redirecting to home...');
   
-  //* Save pending toast message
-  localStorage.setItem('pendingToast', JSON.stringify({
-    message: 'You must login to create an ad',
-    type: 'warning'
-  }));
-  
   window.location.href = 'index.html';
-  throw new Error('Authentication required');
+  throw new Error('User is not authenticated');
 }
-
-console.log('✅ User authenticated, loading create-ad page');
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log('✅ DOM ready, initializing create-ad page...');
@@ -54,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
   //* Event listeners - START (loader + toast)
   createAdForm.addEventListener('start-create-ad', (event) => {
     console.log('📡 EVENT: start-create-ad');
-    showToast(event.detail.message, event.detail.type);  // ← AÑADIDO
+    showToast(event.detail.message, event.detail.type);  
     showLoader();
   });
   

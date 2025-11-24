@@ -12,7 +12,7 @@ export const buildEmptyState = (isAuthenticated, username = null) => {
   
   //* Welcome message (if authenticated)
   const welcomeMessage = username 
-    ? `<p class="text-muted mb-4">Welcome back, <strong>${username}</strong>!</p>`
+    ? `<p class="text-muted mb-4">Welcome back, <strong>${username.split('@')[0]}</strong>!</p>`
     : '<p class="text-muted mb-4">Be the first to publish an ad</p>';
   
   //* Call to action button

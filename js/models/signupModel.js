@@ -1,11 +1,4 @@
-//* ============================================
 //* signupModel.js
-//* ============================================
-
-/**
- * MODEL: Signup
- * Handles user registration via backend API
- */
 
 /**
  * Creates a new user account in the system
@@ -14,14 +7,6 @@
  * @param {string} password - User's password (min 8 characters)
  * @returns {Promise<void>} Resolves if user created successfully
  * @throws {Error} Throws error with descriptive message if registration fails
- * 
- * @example
- * try {
- *   await createUser('user@example.com', 'password123');
- *   console.log('User created successfully');
- * } catch (error) {
- *   console.error('Registration failed:', error.message);
- * }
  */
 
 export const createUser = async (email, password) => {
@@ -36,7 +21,7 @@ export const createUser = async (email, password) => {
       },
       body: JSON.stringify({
         username: email,  // Backend expects 'username' field
-        password          // ES6 shorthand
+        password          
       })
     });
 
@@ -60,7 +45,6 @@ export const createUser = async (email, password) => {
     // Response OK - safe to parse JSON
     const data = await response.json();
     console.log('✅ user created:' , data)
-    // Success - no return needed (void function)
     
   } catch (error) {
     

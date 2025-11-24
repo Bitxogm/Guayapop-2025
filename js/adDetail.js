@@ -15,9 +15,8 @@ import { toastController } from './controllers/toast.controller.js';
 
 console.log('🚀 Ad Detail page starting...');
 
-//* ============================================
 //* Get ad ID from URL params
-//* ============================================
+
 const urlParams = new URLSearchParams(window.location.search);
 const adId = urlParams.get('id');
 
@@ -27,12 +26,11 @@ if (!adId) {
   window.location.href = 'index.html';
   throw new Error('Ad ID is required');
 }
-
 console.log(`✅ Ad ID from URL: ${adId}`);
 
-//* ============================================
+
 //* Initialize page when DOM is ready
-//* ============================================
+
 document.addEventListener('DOMContentLoaded', () => {
   console.log('✅ DOM ready, initializing ad-detail page...');
 

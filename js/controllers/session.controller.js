@@ -18,22 +18,16 @@ export const sessionController = (sessionContainer) => {
 
   if (isAuthenticated) {
     //* User is logged in → Show greeting + Create Ad + Logout buttons
-    
-    //* Get username from token
-    let shortName = 'User';
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      const username = payload.username;
-      shortName = username ? username.split('@')[0] : 'User';
-    } catch (error) {
-      console.error('❌ Error decoding token:', error);
-    }
-    
+
+    //* Get username from localstorage
+    const username = localStorage.getItem('username') || 'user@example.com';
+    const shortName = username.split('@')[0];
+
     //* Greeting text
     const greetingSpan = document.createElement('span');
     greetingSpan.classList.add('text-success', 'me-5', 'fw-normal', 'fs-4');
     greetingSpan.textContent = ` 👋🏻 Hello, ${shortName} !`;
-    
+
     //* Create Ad button
     const createAdButton = document.createElement('a');
     createAdButton.href = 'create-ad.html';
@@ -48,10 +42,12 @@ export const sessionController = (sessionContainer) => {
     //* Logout event listener
     logoutButton.addEventListener('click', () => {
       console.log('🚪 Logging out...');
-      
+
       //* Clear token
       localStorage.removeItem(constants.tokenKey);
-      
+      localStorage.removeItem('username');
+
+
       //* Redirect to home
       window.location.href = 'index.html';
     });
@@ -63,7 +59,7 @@ export const sessionController = (sessionContainer) => {
 
   } else {
     //* User is NOT logged in → Show Login + Signup buttons
-    
+
     const loginButton = document.createElement('a');
     loginButton.href = 'login.html';
     loginButton.classList.add('btn', 'btn-outline-primary', 'btn-sm', 'me-2');

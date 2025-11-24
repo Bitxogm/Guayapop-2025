@@ -2,15 +2,17 @@
 //* login.controller.js
 //* ============================================
 
-/**
- * CONTROLLER: Login
- * Handles form validation and user authentication
- */
-
 import { constants } from "../utils/constants.js";
 import { loginUser } from "../models/loginModel.js";
 
-export const loginController = (loginForm) => {  
+/**
+ * Function to handle login form submission
+ * @param {*} loginForm 
+ * @args {Object} loginForm
+ * @returns {void} 
+ */
+
+export const loginController = (loginForm) => {
 
   // Event listener for form submission
   loginForm.addEventListener("submit", async (event) => {
@@ -28,7 +30,7 @@ export const loginController = (loginForm) => {
     const emailRegExp = new RegExp(constants.mailRegExp);
 
     // Validate email format
-    if (!emailRegExp.test(email)) {  
+    if (!emailRegExp.test(email)) {
       const errorEvent = new CustomEvent("login-validation-error", {
         detail: {
           message: "Invalid email format.",
@@ -57,11 +59,14 @@ export const loginController = (loginForm) => {
       // Store token in localStorage
       localStorage.setItem(constants.tokenKey, token);
       console.log('✅ Token stored in localStorage', token);
+      localStorage.setItem(constants.tokenKey, token);
+      localStorage.setItem('username', email);
+      console.log('✅ Token and username stored in localStorage');
 
       // If login is successful, dispatch success event
       const successEvent = new CustomEvent("login-success", {
         detail: {
-          message: "Login successful! Redirecting...",
+          message: " Login successful! Redirecting...",
           type: "success"
         }
       });
@@ -77,15 +82,15 @@ export const loginController = (loginForm) => {
       // If an error occurs, dispatch validation error event
       const errorEvent = new CustomEvent("login-validation-error", {
         detail: {
-          message: error.message,
+          message: ` 👎🏻 Login failed: ${error.message}`,
           type: "error"
         }
       });
       loginForm.dispatchEvent(errorEvent);
-  
+
     } finally {
       // Dispatch END loader event
-      const finishEvent = new CustomEvent("finish-login");  
+      const finishEvent = new CustomEvent("finish-login");
       loginForm.dispatchEvent(finishEvent);
     }
   });

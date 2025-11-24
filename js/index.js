@@ -1,9 +1,5 @@
-/* The provided code is an entry point script written in JavaScript for the home page of a web
-application. Here is a breakdown of what the code does: */
 
-//* ============================================
 //* index.js - Entry Point for Home Page
-//* ============================================
 
 /**
  * ENTRY POINT: Home page (ads listing)

@@ -1,4 +1,4 @@
-//** AdDetail Model - VERSIÓN CON TODOS LOS MÉTODOS */
+//** AdDetail Model 
 
 import { constants } from '../utils/constants.js';
 
@@ -129,6 +129,7 @@ export const deleteAd = async (adId) => {
   
   if (!token) {
     throw new Error('User is not authenticated');
+    
   }
 
   try {

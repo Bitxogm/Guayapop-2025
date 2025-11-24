@@ -1,6 +1,7 @@
 //** Create Ad Controller */
 
 import { createAd } from '../models/createAd.model.js';
+import { constants } from '../utils/constants.js';  
 
 // TODO:Si el usuario no ha iniciado sesion redireccionar a pantalla de anuncios
 // TODO: Mostrar un toast informando del motivo
@@ -9,6 +10,12 @@ export const createAdController = (createAdForm) => {
   createAdForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
+    const token = localStorage.getItem(constants.tokenKey);
+    if (!token) {
+      alert('Your session has expired. Please login again.');
+      window.location.href = 'login.html';
+      return;
+    }
     // Necesito obtener el Contenido del los datos del formulario
 
     // Get all data from form , FormData read automatically the input names and values
@@ -37,14 +44,19 @@ export const createAdController = (createAdForm) => {
     // Call the model to create the ad
     try {
       // Distpatch START loader event
-      const startEvent = new CustomEvent("start-create-ad");
+      const startEvent = new CustomEvent("start-create-ad", {
+        detail: {
+          message: " Creating ad...",
+          type: "info"
+        }
+      });
       createAdForm.dispatchEvent(startEvent);
       const newAd = await createAd(adData);
       console.log('✅ CONTROLLER: Ad created successfully:', newAd);
       // If ad, dispatch success event
       const successEvent = new CustomEvent("create-ad-success", {
         detail: {
-          message: "😀 Ad created!!➡️ Go home",
+          message: "😀 Ad created!! ➡️ Go home",
           type: "success"
         }
       });
@@ -64,9 +76,9 @@ export const createAdController = (createAdForm) => {
         }
       });
       createAdForm.dispatchEvent(errorEvent);
-    }finally{
+    } finally {
       // Dispatch END loader event
-      const endEvent = new CustomEvent("end-create-ad");
+      const endEvent = new CustomEvent("finish-create-ad");
       createAdForm.dispatchEvent(endEvent);
     }
   });
