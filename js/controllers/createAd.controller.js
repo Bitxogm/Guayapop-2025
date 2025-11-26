@@ -2,6 +2,7 @@
 
 import { createAd } from '../models/createAd.model.js';
 import { constants } from '../utils/constants.js';  
+import { resetPagination } from './ads.controller.js';
 
 // TODO:Si el usuario no ha iniciado sesion redireccionar a pantalla de anuncios
 // TODO: Mostrar un toast informando del motivo
@@ -62,6 +63,7 @@ export const createAdController = (createAdForm) => {
       });
       createAdForm.dispatchEvent(successEvent);
       setTimeout(() => {
+        resetPagination();
         window.location.href = `/`;
       }, 3000);
 

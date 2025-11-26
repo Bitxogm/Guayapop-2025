@@ -3,6 +3,7 @@
 import { getAdDetail, getUserData, deleteAd } from '../models/adDetailModel.js';
 import { buildAdDetailCard } from '../views/adDetail.view.js';
 import { constants } from '../utils/constants.js';
+import { resetPagination } from './ads.controller.js';
 
 /**
  * Fetches and displays a single ad detail
@@ -102,6 +103,7 @@ const handleOwnerActions = (ad) => {
 
         //*  Redirect to home
         console.log('🔄 Redirecting to home...');
+        resetPagination();
         window.location.href = 'index.html';
 
       } catch (error) {

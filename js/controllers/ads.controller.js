@@ -3,6 +3,7 @@
 import { getAds } from '../models/adsModel.js';
 import { buildAdCard } from '../views/ads.view.js';
 import { buildEmptyState, buildErrorState } from '../views/states.view.js';
+import { buildPagination } from '../views/pagination.view.js';
 import { constants } from '../utils/constants.js';
 
 /**
@@ -14,6 +15,12 @@ import { constants } from '../utils/constants.js';
  * @returns {Promise<void>}
  */
 
+let currentPage = 1;
+let perPage = 10;
+let totalPages = 0;
+let isLoading = false;
+let searchTerm = '';
+
 export const adsController = async () => {
   console.log('🎮 CONTROLLER: Starting loadAds...');
 
@@ -21,11 +28,16 @@ export const adsController = async () => {
   'ads-cards' from the DOM. */
   const adsContainer = document.getElementById('ads-container');
   const adsSection = document.getElementById('ads-cards');
+  const paginationContainer = document.getElementById('pagination-container');
 
-  if (!adsContainer || !adsSection) {
+  if (!adsContainer || !adsSection || !paginationContainer) {
     console.error('❌ CONTROLLER: Required elements not found');
     return;
   }
+  if (isLoading) {
+    return;
+  }
+
 
   //* Check authentication
   const token = localStorage.getItem(constants.tokenKey);
@@ -50,16 +62,21 @@ export const adsController = async () => {
 
   try {
     //* Dispatch start event
+    isLoading = true;
     const startEvent = new CustomEvent('start-fetching-ads', {
       detail: {
-         message: '🔎 Fetching ads...',
-          type: 'info' 
-        }
+        message: '🔎 Fetching ads...',
+        type: 'info'
+      }
     });
     adsSection.dispatchEvent(startEvent);
 
     //* Fetch data from Model
-    ads = await getAds();
+    const { ads: fetchedAds, totalCount } = await getAds(currentPage, perPage, searchTerm);
+
+    ads = fetchedAds;
+    totalPages = Math.ceil(totalCount / perPage);
+    console.log(`CONTROLLER: Page ${currentPage} / ${totalPages}, Total ads: ${totalCount}`)
 
   } catch (error) {
     //  STATE = ERROR
@@ -79,6 +96,7 @@ export const adsController = async () => {
     adsContainer.innerHTML = '';
 
   } finally {
+    isLoading = false;
     //* Always hide loader
     const finishEvent = new CustomEvent('finish-fetching-ads');
     adsSection.dispatchEvent(finishEvent);
@@ -88,7 +106,8 @@ export const adsController = async () => {
 
   if (hasError) {
     console.log('❌ Stopping due to error');
-    adsContainer.innerHTML = buildErrorState(errorMessage)
+    adsContainer.innerHTML = buildErrorState(errorMessage);
+    paginationContainer.innerHTML = '';
     return;  //Return  - No continuar con success/empty
   }
 
@@ -99,6 +118,7 @@ export const adsController = async () => {
 
     //* Show empty state
     adsContainer.innerHTML = buildEmptyState(isAuthenticated, username);
+    paginationContainer.innerHTML = '';
 
     //* Dispatch empty event (toast azul)
     const emptyStateEvent = new CustomEvent('ads-empty', {
@@ -147,6 +167,81 @@ export const adsController = async () => {
   });
 
   adsContainer.appendChild(gridRow);
+  paginationContainer.innerHTML = buildPagination(currentPage, totalPages);
+
+  attachPaginationListeners();
 
   console.log('✅ CONTROLLER: Ads rendered successfully');
 };
+
+const attachPaginationListeners = () => {
+  const prevButton = document.getElementById('prev-page-btn');
+  const nextButton = document.getElementById('next-page-btn');
+
+  if (prevButton && !prevButton.disabled) {
+    prevButton.addEventListener('click', () => {
+      changePage(currentPage - 1);
+    })
+  }
+
+  if (nextButton && !nextButton.disabled) {
+    nextButton.addEventListener('click', () => {
+      changePage(currentPage + 1);
+    })
+  }
+}
+
+const changePage = (newPage) => {
+  if (newPage < 1 || newPage > totalPages) {
+    console.log('❌ Invalid page number:', newPage);
+    return;
+  }
+
+  currentPage = newPage;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  adsController();
+}
+
+
+// Resetear a pagina 1 despues de crear editar o eliminar una nuncio 
+export const resetPagination = () => {
+  currentPage = 1;
+  adsController();
+}
+
+export const handleSearch = () => {
+  const searchInput = document.getElementById('search-input');
+  const showAllButton = document.getElementById('show-all-button'); 
+  
+  if (!searchInput) return;
+  
+  searchTerm = searchInput.value.trim();
+  
+  // boton show
+  if (showAllButton && searchTerm) {
+    showAllButton.style.display = 'inline-block';
+  }
+  
+  currentPage = 1;
+  adsController();
+}
+
+export function showAllAds() {
+  const searchInput = document.getElementById('search-input');
+  const showAllButton = document.getElementById('show-all-button');
+  
+  // Limpiar input
+  if (searchInput) {
+    searchInput.value = '';
+  }
+  
+  // Ocultar botón
+  if (showAllButton) {
+    showAllButton.style.display = 'none';
+  }
+  
+  // Reset búsqueda
+  searchTerm = '';
+  currentPage = 1;
+  adsController();
+}
