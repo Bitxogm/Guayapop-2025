@@ -20,6 +20,7 @@ let perPage = 10;
 let totalPages = 0;
 let isLoading = false;
 let searchTerm = '';
+let filterTag = '';
 
 export const adsController = async () => {
   console.log('🎮 CONTROLLER: Starting loadAds...');
@@ -47,6 +48,9 @@ export const adsController = async () => {
   let username = null;
   if (isAuthenticated && token) {
     try {
+
+      // Otra forma de obtener el y decodificar el token , con atob decodifica y obtiene todos los valores del token del localstorage , mas rapido
+      //  y sin llamr al backend
       const payload = JSON.parse(atob(token.split('.')[1]));
       username = payload.username;
       const shortName = username ? username.split('@')[0] : 'User';
@@ -72,7 +76,7 @@ export const adsController = async () => {
     adsSection.dispatchEvent(startEvent);
 
     //* Fetch data from Model
-    const { ads: fetchedAds, totalCount } = await getAds(currentPage, perPage, searchTerm);
+    const { ads: fetchedAds, totalCount } = await getAds(currentPage, perPage, searchTerm, filterTag);
 
     ads = fetchedAds;
     totalPages = Math.ceil(totalCount / perPage);
@@ -217,6 +221,7 @@ export const handleSearch = () => {
   
   searchTerm = searchInput.value.trim();
   
+  
   // boton show
   if (showAllButton && searchTerm) {
     showAllButton.style.display = 'inline-block';
@@ -243,5 +248,43 @@ export function showAllAds() {
   // Reset búsqueda
   searchTerm = '';
   currentPage = 1;
+  adsController();
+}
+
+export function filterByTag(tag) {
+  console.log('🏷️ Filtering by tag:', tag);
+  
+  // Guardar el tag
+  filterTag = tag;
+  
+  // Volver a página 1
+  currentPage = 1;
+  
+  // Mostrar botón "Clear Filter"
+  const clearBtn = document.getElementById('clear-filter-btn');
+  if (clearBtn) {
+    clearBtn.style.display = 'inline-block';
+  }
+  
+  // Recargar anuncios con filtro
+  adsController();
+}
+
+export function clearFilter() {
+  console.log('🗑️ Clearing filter...');
+  
+  // Limpiar el filtro
+  filterTag = '';
+  
+  // Volver a página 1
+  currentPage = 1;
+  
+  // Ocultar botón "Clear Filter"
+  const clearBtn = document.getElementById('clear-filter-btn');
+  if (clearBtn) {
+    clearBtn.style.display = 'none';
+  }
+  
+  // Recargar todos los anuncios
   adsController();
 }

@@ -8,7 +8,7 @@
  * - Handle loader and toasts
  */
 
-import { adsController, handleSearch, showAllAds} from "./controllers/ads.controller.js";
+import { adsController, handleSearch, showAllAds, filterByTag, clearFilter } from "./controllers/ads.controller.js";
 import { loaderController } from "./controllers/loader.controller.js";
 import { toastController } from "./controllers/toast.controller.js";
 import { sessionController } from "./controllers/session.controller.js";
@@ -32,6 +32,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const searchButton = document.getElementById('search-button');
   const searchInput = document.getElementById('search-input');
   const showAllButton = document.getElementById('show-all-button');
+  const filterButtons = document.querySelectorAll('.filter-tag-btn');
+  const clearFilterButton = document.getElementById('clear-filter-btn');
 
   // Try both possible IDs for toast container
   let toastContainer = document.getElementById("notifications");
@@ -106,11 +108,30 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   if (showAllButton) {
-  showAllButton.addEventListener('click', () => {
-    console.log('🔄 Show all ads clicked');
-    showAllAds();
+    showAllButton.addEventListener('click', () => {
+      console.log('🔄 Show all ads clicked');
+      showAllAds();
+    });
+  }
+
+  // Filter by tag buttons
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const tag = button.dataset.tag;
+      console.log('🏷️ Filter button clicked:', tag);
+      filterByTag(tag);
+    });
   });
-}
+
+// Çlear filter button
+  if (clearFilterButton) {
+    clearFilterButton.addEventListener('click', () => {
+      console.log('🗑️ Clear filter clicked');
+      clearFilter();
+    });
+  }
+
+
 
 
   // Initialize ads controller

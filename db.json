@@ -1,25 +1,63 @@
 {
   "users": [
     {
-      "username": "bitxogm1976@gmail.com",
-      "password": "$2b$10$59GYK.MydFWDzHcjLQ6HlOwNdm2nhh12ttkEhqKNrBANEaBXffQUW",
+      "username": "user1@gmail.com",
+      "password": "$2b$10$kWZSW2ogKdUOui3kfRZ5sOBqDAk2Fs7iskTWpuyXizJ4JsDaaTQii",
       "id": 1
+    },
+    {
+      "username": "user2@gmail.com",
+      "password": "$2b$10$kWZSW2ogKdUOui3kfRZ5sOBqDAk2Fs7iskTWpuyXizJ4JsDaaTQii",
+      "id": 2
+    },
+    {
+      "username": "user3@gmail.com",
+      "password": "$2b$10$kWZSW2ogKdUOui3kfRZ5sOBqDAk2Fs7iskTWpuyXizJ4JsDaaTQii",
+      "id": 3
     }
   ],
   "products": [
     {
-      "name": "AirPods Pro 2",
-      "description": "Auriculares inalámbricos Apple con cancelación de ruido. Como nuevos, 2 meses de uso. Incluye todos los accesorios.",
-      "price": 180,
+      "name": "Bicicleta montaña Trek",
+      "description": "MTB 29 pulgadas, 21 velocidades Shimano. Mantenimiento reciente, ruedas nuevas.",
+      "price": 350,
       "type": "sell",
-      "image": "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400",
+      "image": "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=400",
+      "tags": [
+        "sports"
+      ],
+      "userId": 1,
+      "createdAt": "2025-11-11T18:22:39.326Z",
+      "updatedAt": "2025-11-11T18:22:39.326Z",
+      "id": 1
+    },
+    {
+      "name": "Raqueta tenis Wilson Pro",
+      "description": "Raqueta profesional, grip recién cambiado. Con funda protectora incluida.",
+      "price": 80,
+      "type": "sell",
+      "image": "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=400",
+      "tags": [
+        "sports"
+      ],
+      "userId": 1,
+      "createdAt": "2025-11-12T18:22:39.326Z",
+      "updatedAt": "2025-11-18T18:22:39.326Z",
+      "id": 2
+    },
+    {
+      "name": "Xiaomi Mi Band 8",
+      "description": "Pulsera de actividad, monitorización de sueño y ejercicio. Nueva a estrenar, sin abrir.",
+      "price": 35,
+      "type": "sell",
+      "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",
       "tags": [
         "electronics"
       ],
       "userId": 1,
-      "createdAt": "2025-11-16T07:28:01.114Z",
-      "updatedAt": "2025-11-16T07:28:01.114Z",
-      "id": 1
+      "createdAt": "2025-11-09T18:22:39.326Z",
+      "updatedAt": "2025-11-10T18:22:39.326Z",
+      "id": 3
     },
     {
       "name": "Tabla surf 6.2 pies",
@@ -31,65 +69,191 @@
         "sports"
       ],
       "userId": 1,
-      "createdAt": "2025-11-15T07:28:01.115Z",
-      "updatedAt": "2025-11-15T07:28:01.115Z",
-      "id": 2
+      "createdAt": "2025-11-09T18:22:39.326Z",
+      "updatedAt": "2025-11-09T18:22:39.326Z",
+      "id": 4
     },
     {
-      "name": "Colección Harry Potter",
-      "description": "Los 7 libros en tapa dura, edición ilustrada. Como nuevos, perfectos para regalo.",
-      "price": 60,
+      "name": "Chaqueta North Face",
+      "description": "Plumífero negro, talla M, impermeable. Perfecta para invierno, apenas usada.",
+      "price": 90,
       "type": "sell",
-      "image": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=400",
+      "image": "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=400",
       "tags": [
-        "books"
+        "clothing"
       ],
       "userId": 1,
-      "createdAt": "2025-11-06T07:28:01.115Z",
-      "updatedAt": "2025-11-10T07:28:01.115Z",
-      "id": 10
-    },
-    {
-      "name": "Busco portátil para estudiar",
-      "description": "Necesito laptop para universidad, presupuesto hasta 400€. Preferiblemente con SSD y 8GB RAM mínimo.",
-      "price": 70,
-      "type": "buy",
-      "image": "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400",
-      "tags": [
-        "electronics"
-      ],
-      "userId": 1,
-      "createdAt": "2025-10-29T07:28:01.115Z",
-      "updatedAt": "2025-10-29T07:28:01.115Z",
-      "id": 11
-    },
-    {
-      "name": "Colección Harry Potter",
-      "description": "Los 7 libros en tapa dura, edición ilustrada. Como nuevos, perfectos para regalo.",
-      "price": 60,
-      "type": "sell",
-      "image": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400",
-      "tags": [
-        "books"
-      ],
-      "userId": 1,
-      "createdAt": "2025-11-14T07:28:01.116Z",
-      "updatedAt": "2025-11-14T07:28:01.116Z",
-      "id": 14
+      "createdAt": "2025-11-16T18:22:39.326Z",
+      "updatedAt": "2025-11-19T18:22:39.326Z",
+      "id": 5
     },
     {
       "name": "Ring Video Doorbell",
       "description": "Timbre con cámara HD, visión nocturna y audio bidireccional. Perfecto para seguridad del hogar.",
       "price": 85,
       "type": "sell",
+      "image": "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400",
+      "tags": [
+        "electronics"
+      ],
+      "userId": 1,
+      "createdAt": "2025-11-12T18:22:39.326Z",
+      "updatedAt": "2025-11-12T18:22:39.326Z",
+      "id": 6
+    },
+    {
+      "name": "Busco silla gaming",
+      "description": "Quiero silla ergonómica para largas sesiones. Presupuesto flexible hasta 150€.",
+      "price": 283,
+      "type": "buy",
+      "image": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=400",
+      "tags": [
+        "furniture"
+      ],
+      "userId": 1,
+      "createdAt": "2025-11-02T18:22:39.326Z",
+      "updatedAt": "2025-11-02T18:22:39.326Z",
+      "id": 7
+    },
+    {
+      "name": "AirPods Pro 2",
+      "description": "Auriculares inalámbricos Apple con cancelación de ruido. Como nuevos, 2 meses de uso. Incluye todos los accesorios.",
+      "price": 180,
+      "type": "sell",
+      "image": "https://images.unsplash.com/photo-1585399000684-d2f72660f092?w=400",
+      "tags": [
+        "electronics"
+      ],
+      "userId": 1,
+      "createdAt": "2025-10-31T18:22:39.327Z",
+      "updatedAt": "2025-11-05T18:22:39.327Z",
+      "id": 8
+    },
+    {
+      "name": "Busco portátil para estudiar",
+      "description": "Necesito laptop para universidad, presupuesto hasta 400€. Preferiblemente con SSD y 8GB RAM mínimo.",
+      "price": 71,
+      "type": "buy",
       "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",
       "tags": [
         "electronics"
       ],
       "userId": 1,
-      "createdAt": "2025-11-19T07:28:01.116Z",
-      "updatedAt": "2025-11-19T07:28:01.116Z",
+      "createdAt": "2025-11-04T18:22:39.327Z",
+      "updatedAt": "2025-11-04T18:22:39.327Z",
+      "id": 9
+    },
+    {
+      "name": "Compro cafetera Nespresso",
+      "description": "Busco cafetera de cápsulas en buen estado. Presupuesto hasta 50€.",
+      "price": 98,
+      "type": "buy",
+      "image": "https://images.unsplash.com/photo-1484788984921-03950022c9ef?w=400",
+      "tags": [
+        "electronics"
+      ],
+      "userId": 1,
+      "createdAt": "2025-10-29T18:22:39.327Z",
+      "updatedAt": "2025-10-29T18:22:39.327Z",
+      "id": 10
+    },
+    {
+      "name": "Abrigo Zara largo",
+      "description": "Abrigo de paño beige, talla S. Elegante para oficina, estado impecable.",
+      "price": 55,
+      "type": "sell",
+      "image": "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=400",
+      "tags": [
+        "clothing"
+      ],
+      "userId": 2,
+      "createdAt": "2025-11-23T18:22:39.327Z",
+      "updatedAt": "2025-11-29T18:22:39.327Z",
+      "id": 11
+    },
+    {
+      "name": "Compro guitarra eléctrica",
+      "description": "Busco guitarra para principiante, cualquier marca. Máximo 200€, con amplificador si es posible.",
+      "price": 349,
+      "type": "buy",
+      "image": "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=400",
+      "tags": [
+        "sports"
+      ],
+      "userId": 2,
+      "createdAt": "2025-11-17T18:22:39.327Z",
+      "updatedAt": "2025-11-17T18:22:39.327Z",
+      "id": 12
+    },
+    {
+      "name": "Estantería Billy blanca",
+      "description": "Librería Ikea 80x200cm, 5 estantes ajustables. Perfecta para libros o decoración.",
+      "price": 45,
+      "type": "sell",
+      "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400",
+      "tags": [
+        "furniture"
+      ],
+      "userId": 2,
+      "createdAt": "2025-11-21T18:22:39.327Z",
+      "updatedAt": "2025-11-21T18:22:39.327Z",
+      "id": 13
+    },
+    {
+      "name": "Xiaomi Mi Band 8",
+      "description": "Pulsera de actividad, monitorización de sueño y ejercicio. Nueva a estrenar, sin abrir.",
+      "price": 35,
+      "type": "sell",
+      "image": "https://images.unsplash.com/photo-1585399000684-d2f72660f092?w=400",
+      "tags": [
+        "electronics"
+      ],
+      "userId": 2,
+      "createdAt": "2025-10-30T18:22:39.327Z",
+      "updatedAt": "2025-11-05T18:22:39.327Z",
+      "id": 14
+    },
+    {
+      "name": "Vaqueros Levis 501",
+      "description": "Jeans clásicos azul oscuro, talla 32. Sin roturas, color bien conservado.",
+      "price": 40,
+      "type": "sell",
+      "image": "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=400",
+      "tags": [
+        "clothing"
+      ],
+      "userId": 2,
+      "createdAt": "2025-11-14T18:22:39.327Z",
+      "updatedAt": "2025-11-14T18:22:39.327Z",
+      "id": 15
+    },
+    {
+      "name": "Busco ropa snowboard talla L",
+      "description": "Necesito chaqueta y pantalón de snow, talla L. Buen estado, impermeables.",
+      "price": 388,
+      "type": "buy",
+      "image": "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=400",
+      "tags": [
+        "clothing"
+      ],
+      "userId": 2,
+      "createdAt": "2025-11-11T18:22:39.327Z",
+      "updatedAt": "2025-11-11T18:22:39.327Z",
       "id": 16
+    },
+    {
+      "name": "Ring Video Doorbell",
+      "description": "Timbre con cámara HD, visión nocturna y audio bidireccional. Perfecto para seguridad del hogar.",
+      "price": 85,
+      "type": "sell",
+      "image": "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400",
+      "tags": [
+        "electronics"
+      ],
+      "userId": 2,
+      "createdAt": "2025-11-07T18:22:39.327Z",
+      "updatedAt": "2025-11-08T18:22:39.327Z",
+      "id": 17
     },
     {
       "name": "Clean Code (Robert Martin)",
@@ -100,24 +264,150 @@
       "tags": [
         "books"
       ],
-      "userId": 1,
-      "createdAt": "2025-11-10T07:28:01.116Z",
-      "updatedAt": "2025-11-10T07:28:01.116Z",
+      "userId": 2,
+      "createdAt": "2025-11-25T18:22:39.327Z",
+      "updatedAt": "2025-12-01T18:22:39.327Z",
       "id": 18
     },
     {
-      "name": "Silla ergonómica oficina",
-      "description": "Silla de trabajo con respaldo de malla, reposabrazos ajustables. Ideal para teletrabajo.",
-      "price": 120,
+      "name": "Zapatillas Nike Air Max",
+      "description": "Deportivas número 42, blancas con detalles azules. Muy poco uso, suela casi sin desgaste.",
+      "price": 75,
       "type": "sell",
-      "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400",
+      "image": "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400",
+      "tags": [
+        "clothing"
+      ],
+      "userId": 2,
+      "createdAt": "2025-11-16T18:22:39.327Z",
+      "updatedAt": "2025-11-16T18:22:39.327Z",
+      "id": 19
+    },
+    {
+      "name": "Busco ropa snowboard talla L",
+      "description": "Necesito chaqueta y pantalón de snow, talla L. Buen estado, impermeables.",
+      "price": 323,
+      "type": "buy",
+      "image": "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=400",
+      "tags": [
+        "clothing"
+      ],
+      "userId": 2,
+      "createdAt": "2025-11-24T18:22:39.327Z",
+      "updatedAt": "2025-11-24T18:22:39.327Z",
+      "id": 20
+    },
+    {
+      "name": "PlayStation 5",
+      "description": "Consola PS5 versión con lector. Incluye 2 mandos DualSense y 3 juegos: FIFA 24, Spider-Man y Horizon.",
+      "price": 420,
+      "type": "sell",
+      "image": "https://images.unsplash.com/photo-1484788984921-03950022c9ef?w=400",
+      "tags": [
+        "electronics"
+      ],
+      "userId": 3,
+      "createdAt": "2025-11-26T18:22:39.327Z",
+      "updatedAt": "2025-11-27T18:22:39.327Z",
+      "id": 21
+    },
+    {
+      "name": "Sofá Ikea Ektorp",
+      "description": "Sofá de 3 plazas, color beige, fundas lavables. Muy buen estado, sin manchas. Solo 1 año de uso.",
+      "price": 280,
+      "type": "sell",
+      "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400",
       "tags": [
         "furniture"
       ],
-      "userId": 1,
-      "createdAt": "2025-10-25T07:28:01.116Z",
-      "updatedAt": "2025-10-27T07:28:01.116Z",
-      "id": 21
+      "userId": 3,
+      "createdAt": "2025-11-06T18:22:39.327Z",
+      "updatedAt": "2025-11-06T18:22:39.327Z",
+      "id": 22
+    },
+    {
+      "name": "Busco portátil para estudiar",
+      "description": "Necesito laptop para universidad, presupuesto hasta 400€. Preferiblemente con SSD y 8GB RAM mínimo.",
+      "price": 286,
+      "type": "buy",
+      "image": "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400",
+      "tags": [
+        "electronics"
+      ],
+      "userId": 3,
+      "createdAt": "2025-11-22T18:22:39.327Z",
+      "updatedAt": "2025-11-22T18:22:39.327Z",
+      "id": 23
+    },
+    {
+      "name": "Chaqueta North Face",
+      "description": "Plumífero negro, talla M, impermeable. Perfecta para invierno, apenas usada.",
+      "price": 90,
+      "type": "sell",
+      "image": "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400",
+      "tags": [
+        "clothing"
+      ],
+      "userId": 3,
+      "createdAt": "2025-11-02T18:22:39.327Z",
+      "updatedAt": "2025-11-03T18:22:39.327Z",
+      "id": 24
+    },
+    {
+      "name": "Colección Harry Potter",
+      "description": "Los 7 libros en tapa dura, edición ilustrada. Como nuevos, perfectos para regalo.",
+      "price": 60,
+      "type": "sell",
+      "image": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400",
+      "tags": [
+        "books"
+      ],
+      "userId": 3,
+      "createdAt": "2025-11-07T18:22:39.327Z",
+      "updatedAt": "2025-11-07T18:22:39.327Z",
+      "id": 25
+    },
+    {
+      "name": "Mesa comedor extensible",
+      "description": "Mesa de madera maciza, extensible de 120 a 180cm. Capacidad hasta 8 personas.",
+      "price": 180,
+      "type": "sell",
+      "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400",
+      "tags": [
+        "furniture"
+      ],
+      "userId": 3,
+      "createdAt": "2025-11-07T18:22:39.327Z",
+      "updatedAt": "2025-11-07T18:22:39.327Z",
+      "id": 26
+    },
+    {
+      "name": "Sofá Ikea Ektorp",
+      "description": "Sofá de 3 plazas, color beige, fundas lavables. Muy buen estado, sin manchas. Solo 1 año de uso.",
+      "price": 280,
+      "type": "sell",
+      "image": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=400",
+      "tags": [
+        "furniture"
+      ],
+      "userId": 3,
+      "createdAt": "2025-11-20T18:22:39.327Z",
+      "updatedAt": "2025-11-20T18:22:39.327Z",
+      "id": 27
+    },
+    {
+      "name": "Escritorio gamer RGB",
+      "description": "Mesa gaming negra con luces LED RGB, cable management. Dimensiones 140x60cm. Como nueva.",
+      "price": 150,
+      "type": "sell",
+      "image": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=400",
+      "tags": [
+        "furniture"
+      ],
+      "userId": 3,
+      "createdAt": "2025-10-30T18:22:39.327Z",
+      "updatedAt": "2025-10-30T18:22:39.327Z",
+      "id": 28
     },
     {
       "name": "Bicicleta montaña Trek",
@@ -128,84 +418,24 @@
       "tags": [
         "sports"
       ],
-      "userId": 1,
-      "createdAt": "2025-11-22T07:28:01.116Z",
-      "updatedAt": "2025-11-22T07:28:01.116Z",
-      "id": 24
+      "userId": 3,
+      "createdAt": "2025-11-19T18:22:39.327Z",
+      "updatedAt": "2025-11-19T18:22:39.327Z",
+      "id": 29
     },
     {
-      "name": "Ring Video Doorbell",
-      "description": "Timbre con cámara HD, visión nocturna y audio bidireccional. Perfecto para seguridad del hogar.",
-      "price": 85,
-      "type": "sell",
-      "image": "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400",
-      "tags": [
-        "electronics"
-      ],
-      "userId": 1,
-      "createdAt": "2025-10-26T07:28:01.116Z",
-      "updatedAt": "2025-10-30T07:28:01.116Z",
-      "id": 26
-    },
-    {
-      "name": "Clean Code (Robert Martin)",
-      "description": "Libro de programación en inglés. Imprescindible para desarrolladores. Buen estado.",
-      "price": 30,
-      "type": "sell",
-      "image": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=400",
-      "tags": [
-        "books"
-      ],
-      "userId": 1,
-      "createdAt": "2025-11-07T07:28:01.116Z",
-      "updatedAt": "2025-11-07T07:28:01.116Z",
-      "id": 30
-    },
-    {
-      "name": "Konekkta_Python",
-      "description": "fbdfg",
-      "price": 33,
-      "type": "sell",
-      "image": "https://placehold.co/800x400?text=No+Image",
-      "tags": [
-        "electronics"
-      ],
-      "createAd": "2025-11-22T07:33:19.673Z",
-      "userId": 1,
-      "updatedAt": "2025-11-22T07:33:19.678Z",
-      "id": 31
-    },
-    {
-      "name": "Otaku's Team",
-      "description": "fghfg",
-      "price": 444,
-      "type": "sell",
-      "image": "https://placehold.co/800x400?text=No+Image",
-      "tags": [
-        "electronics"
-      ],
-      "createAd": "2025-11-22T07:38:10.816Z",
-      "userId": 1,
-      "updatedAt": "2025-11-22T07:38:10.820Z",
-      "id": 32
-    },
-    {
-      "name": "3producto",
-      "description": "fthfthf",
-      "price": 77,
+      "name": "Compro mesa de comedor",
+      "description": "Busco mesa extensible para 6-8 personas. Madera maciza preferiblemente. Máximo 200€.",
+      "price": 336,
       "type": "buy",
-      "image": "https://placehold.co/800x400?text=No+Image",
+      "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400",
       "tags": [
-        "electronics",
-        "furniture",
-        "clothing",
-        "books",
-        "sports"
+        "furniture"
       ],
-      "createAd": "2025-11-22T07:38:56.069Z",
-      "userId": 1,
-      "updatedAt": "2025-11-22T07:38:56.073Z",
-      "id": 33
+      "userId": 3,
+      "createdAt": "2025-10-29T18:22:39.327Z",
+      "updatedAt": "2025-10-29T18:22:39.327Z",
+      "id": 30
     }
   ]
 }
