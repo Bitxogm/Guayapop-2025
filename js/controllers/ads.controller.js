@@ -23,22 +23,11 @@ let searchTerm = '';
 let filterTag = '';
 
 export const adsController = async () => {
-  console.log('🎮 CONTROLLER: Starting loadAds...');
 
-  /* These lines of code are retrieving references to HTML elements with the IDs 'ads-container' and
-  'ads-cards' from the DOM. */
+  //* Get DOM elements
   const adsContainer = document.getElementById('ads-container');
   const adsSection = document.getElementById('ads-cards');
   const paginationContainer = document.getElementById('pagination-container');
-
-  if (!adsContainer || !adsSection || !paginationContainer) {
-    console.error('❌ CONTROLLER: Required elements not found');
-    return;
-  }
-  if (isLoading) {
-    return;
-  }
-
 
   //* Check authentication
   const token = localStorage.getItem(constants.tokenKey);
@@ -49,20 +38,18 @@ export const adsController = async () => {
   if (isAuthenticated && token) {
     try {
 
-      // Otra forma de obtener el y decodificar el token , con atob decodifica y obtiene todos los valores del token del localstorage , mas rapido
-      //  y sin llamr al backend
+      // Decode JWT token with atob ,
       const payload = JSON.parse(atob(token.split('.')[1]));
       username = payload.username;
       const shortName = username ? username.split('@')[0] : 'User';
-      console.log('👤 Username from token:', shortName);
     } catch (error) {
-      console.error('❌ Error decoding token:', error);
+      throw new Error('Error decoding token');
     }
   }
 
   let ads = [];
-  let hasError = false;  // FLAG para saber si hubo error
-  let errorMessage = '';  // FLAG para almacenar el mensaje de error
+  let hasError = false;
+  let errorMessage = '';
 
   try {
     //* Dispatch start event
@@ -80,12 +67,10 @@ export const adsController = async () => {
 
     ads = fetchedAds;
     totalPages = Math.ceil(totalCount / perPage);
-    console.log(`CONTROLLER: Page ${currentPage} / ${totalPages}, Total ads: ${totalCount}`)
 
   } catch (error) {
     //  STATE = ERROR
-    console.error('❌ CONTROLLER: Error fetching ads:', error);
-    hasError = true;  //  Marcar que hubo error
+    hasError = true;
 
     //* Dispatch error event
     const errorEvent = new CustomEvent('ads-error', {
@@ -106,25 +91,21 @@ export const adsController = async () => {
     adsSection.dispatchEvent(finishEvent);
   }
 
-  //* SI HUBO ERROR → SALIR (no mostrar más toasts)
-
   if (hasError) {
-    console.log('❌ Stopping due to error');
     adsContainer.innerHTML = buildErrorState(errorMessage);
     paginationContainer.innerHTML = '';
-    return;  //Return  - No continuar con success/empty
+    return;
   }
 
 
-  //* STATE = EMPTY (sin error, pero sin anuncios)
+  //* STATE = EMPTY 
   if (ads.length === 0) {
-    console.log('📭 CONTROLLER: No ads found');
 
     //* Show empty state
     adsContainer.innerHTML = buildEmptyState(isAuthenticated, username);
     paginationContainer.innerHTML = '';
 
-    //* Dispatch empty event (toast azul)
+    //* Dispatch empty event (blue toast)
     const emptyStateEvent = new CustomEvent('ads-empty', {
       detail: {
         message: `🤔 ${ads.length} ads found`,
@@ -132,14 +113,12 @@ export const adsController = async () => {
       }
     });
     adsSection.dispatchEvent(emptyStateEvent);
-
-    return;  //return, no continuar con success
+    return;
   }
 
-  //* STATE = SUCCESS (sin error, con anuncios)
-  console.log(`✅ CONTROLLER: Building ${ads.length} ad cards...`);
+  //* STATE = SUCCESS 
 
-  //* Dispatch success event (toast verde)
+  //* Dispatch success event (green toast)
   const successEvent = new CustomEvent('finish-load-ads', {
     detail: {
       message: `😀 ${ads.length} ads loaded successfully`,
@@ -163,7 +142,6 @@ export const adsController = async () => {
     cardWrapper.innerHTML = buildAdCard(ad);
 
     cardWrapper.addEventListener('click', () => {
-      console.log(`🖱️ Card clicked, navigating to ad detail: ${ad.id}`);
       window.location.href = `ad-detail.html?id=${ad.id}`;
     });
 
@@ -172,10 +150,7 @@ export const adsController = async () => {
 
   adsContainer.appendChild(gridRow);
   paginationContainer.innerHTML = buildPagination(currentPage, totalPages);
-
   attachPaginationListeners();
-
-  console.log('✅ CONTROLLER: Ads rendered successfully');
 };
 
 const attachPaginationListeners = () => {
@@ -197,7 +172,6 @@ const attachPaginationListeners = () => {
 
 const changePage = (newPage) => {
   if (newPage < 1 || newPage > totalPages) {
-    console.log('❌ Invalid page number:', newPage);
     return;
   }
 
@@ -206,8 +180,7 @@ const changePage = (newPage) => {
   adsController();
 }
 
-
-// Resetear a pagina 1 despues de crear editar o eliminar una nuncio 
+// Reset pagination
 export const resetPagination = () => {
   currentPage = 1;
   adsController();
@@ -215,18 +188,17 @@ export const resetPagination = () => {
 
 export const handleSearch = () => {
   const searchInput = document.getElementById('search-input');
-  const showAllButton = document.getElementById('show-all-button'); 
-  
+  const showAllButton = document.getElementById('show-all-button');
+
   if (!searchInput) return;
-  
+
   searchTerm = searchInput.value.trim();
-  
-  
-  // boton show
+
+  //* show button
   if (showAllButton && searchTerm) {
     showAllButton.style.display = 'inline-block';
   }
-  
+
   currentPage = 1;
   adsController();
 }
@@ -234,57 +206,55 @@ export const handleSearch = () => {
 export function showAllAds() {
   const searchInput = document.getElementById('search-input');
   const showAllButton = document.getElementById('show-all-button');
-  
-  // Limpiar input
+
+  //* Clear input
   if (searchInput) {
     searchInput.value = '';
   }
-  
-  // Ocultar botón
+
+  //* Hide button
   if (showAllButton) {
     showAllButton.style.display = 'none';
   }
-  
-  // Reset búsqueda
+
+  //* Reset search
   searchTerm = '';
   currentPage = 1;
   adsController();
 }
 
 export function filterByTag(tag) {
-  console.log('🏷️ Filtering by tag:', tag);
-  
-  // Guardar el tag
+
+  //* Keep tag
   filterTag = tag;
-  
-  // Volver a página 1
+
+  //* Reset pagination
   currentPage = 1;
-  
-  // Mostrar botón "Clear Filter"
+
+  //* Show button "Clear Filter"
   const clearBtn = document.getElementById('clear-filter-btn');
   if (clearBtn) {
     clearBtn.style.display = 'inline-block';
   }
-  
-  // Recargar anuncios con filtro
+
+  //* Reload ads with filters
   adsController();
 }
 
 export function clearFilter() {
-  console.log('🗑️ Clearing filter...');
-  
-  // Limpiar el filtro
+
+  //* Clear tag 
   filterTag = '';
-  
-  // Volver a página 1
+
+  //* Reset pagination
   currentPage = 1;
-  
-  // Ocultar botón "Clear Filter"
+
+  //*Hide button "Clear Filter"
   const clearBtn = document.getElementById('clear-filter-btn');
   if (clearBtn) {
     clearBtn.style.display = 'none';
   }
-  
+
   // Recargar todos los anuncios
   adsController();
 }

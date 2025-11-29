@@ -63,45 +63,41 @@
 
       <!-- Search by tags -->
       <div class="container mb-3">
-  <div class="row justify-content-center">
-    <div class="col-md-10">
-      <div class="d-flex justify-content-center gap-2 flex-wrap">
-        <button class="btn btn-sm btn-outline-primary filter-tag-btn" data-tag="electronics">
-          📱 Electronics
-        </button>
-        <button class="btn btn-sm btn-outline-primary filter-tag-btn" data-tag="furniture">
-          🪑 Furniture
-        </button>
-        <button class="btn btn-sm btn-outline-primary filter-tag-btn" data-tag="clothing">
-          👕 Clothing
-        </button>
-        <button class="btn btn-sm btn-outline-primary filter-tag-btn" data-tag="books">
-          📚 Books
-        </button>
-        <button class="btn btn-sm btn-outline-primary filter-tag-btn" data-tag="sports">
-          ⚽ Sports
-        </button>
-        <button class="btn btn-sm btn-outline-danger" id="clear-filter-btn" style="display: none;">
-          ❌ Clear Filter
-        </button>
+        <div class="row justify-content-center">
+          <div class="col-md-10">
+            <div class="d-flex justify-content-center gap-2 flex-wrap">
+              <button class="btn btn-sm btn-outline-primary filter-tag-btn" data-tag="electronics">
+                📱 Electronics
+              </button>
+              <button class="btn btn-sm btn-outline-primary filter-tag-btn" data-tag="furniture">
+                🪑 Furniture
+              </button>
+              <button class="btn btn-sm btn-outline-primary filter-tag-btn" data-tag="clothing">
+                👕 Clothing
+              </button>
+              <button class="btn btn-sm btn-outline-primary filter-tag-btn" data-tag="books">
+                📚 Books
+              </button>
+              <button class="btn btn-sm btn-outline-primary filter-tag-btn" data-tag="sports">
+                ⚽ Sports
+              </button>
+              <button class="btn btn-sm btn-outline-danger" id="clear-filter-btn" style="display: none;">
+                ❌ Clear Filter
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
-
-
 
       <section id="ads-cards">
         <div class="row" id="ads-container">
           <!-- Cards will be added here -->
         </div>
 
-        <div id="pagination-container" class="mt-4">
-          <!-- Los botones de paginación se insertarán aquí -->
-        </div>
+        <div id="pagination-container" class="mt-4"></div>
         <div id="loader-container"></div>
       </section>
-      <div id="toast-container"></div>
+      <div id="notifications"></div>
     </div>
 
   </main>

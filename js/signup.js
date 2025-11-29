@@ -11,34 +11,41 @@ import { signupController } from "./controllers/signup.controller.js";
 import { toastController } from "./controllers/toast.controller.js";
 import { loaderController } from "./controllers/loader.controller.js";
 
-// Select  elements from DOM
-const signupForm = document.querySelector("form");
-const toastContainer = document.getElementById("notifications");
-const loaderContainer = document.getElementById("loader-container");
+// Wait for DOM to be ready
+document.addEventListener('DOMContentLoaded', () => {
 
+  // Select elements from DOM
+  const signupForm = document.querySelector("form");
+  const toastContainer = document.getElementById("notifications");
+  const loaderContainer = document.getElementById("loader-container");
 
-// Initialize controllers
-const { showToast } = toastController(toastContainer);
-const { showLoader, hideLoader } = loaderController(loaderContainer);
+  // Verify elements exist
+  if (!signupForm || !toastContainer || !loaderContainer) {
+    return;
+  }
 
-// Event listeners for custom events (loader events)
-signupForm.addEventListener("start-signup", ()=> {
-  showLoader();
+  // Initialize controllers
+  const { showToast } = toastController(toastContainer);
+  const { showLoader, hideLoader } = loaderController(loaderContainer);
+
+  // Event listeners - LOADER events
+  signupForm.addEventListener("start-signup", () => {
+    showLoader();
+  });
+
+  signupForm.addEventListener("finish-signup", () => {
+    hideLoader();
+  });
+
+  // Event listeners - TOAST/ERROR events
+  signupForm.addEventListener("signup-validation-error", (event) => {
+    showToast(event.detail.message, event.detail.type);
+  });
+
+  signupForm.addEventListener("signup-success", (event) => {
+    showToast(event.detail.message, event.detail.type);
+  });
+
+  // Initialize controller
+  signupController(signupForm);
 });
-
-signupForm.addEventListener("finish-signup", ()=> {
-  hideLoader();
-});
-
-// Event listeners for custom events (toast/errors events)
-signupForm.addEventListener("signup-validation-error", (event) => {
-  showToast(event.detail.message, event.detail.type);
-});
-
-signupForm.addEventListener("signup-success", (event) => {
-  showToast(event.detail.message, event.detail.type);
-});
-
-// Initialize controller
-
-signupController(signupForm);

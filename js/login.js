@@ -1,4 +1,4 @@
-//* login.js - Entry Point
+//* login.js 
 
 /**
  * ENTRY POINT: Login page
@@ -11,11 +11,8 @@ import { loginController } from "./controllers/login.controller.js";
 import { toastController } from "./controllers/toast.controller.js";
 import { loaderController } from "./controllers/loader.controller.js";
 
-console.log('🚀 Login page starting...');
-
 // Used to wait for DOM to be ready , for preventDefault errors
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('✅ DOM ready, initializing login...');
   
   // Select elements from DOM
   const loginForm = document.querySelector("form");
@@ -23,18 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const loaderContainer = document.getElementById("loader-container");
 
   // Verify elements exist
-  if (!loginForm) {
-    console.error('❌ Form not found');
-    return;
-  }
-
-  if (!toastContainer) {
-    console.error('❌ Toast container not found');
-    return;
-  }
-
-  if (!loaderContainer) {
-    console.error('❌ Loader container not found');
+  if (!loginForm || !toastContainer || !loaderContainer) {
     return;
   }
 
@@ -61,8 +47,5 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Initialize controller
-  console.log('🎮 Initializing login controller...');
   loginController(loginForm);
-
-  console.log('✅ Login page initialized');
 });

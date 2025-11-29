@@ -16,9 +16,8 @@ import { resetPagination } from './ads.controller.js';
  * @returns {Promise<void>}
  */
 export const adDetailController = async (adDetailContainer, adId) => {
-  console.log('⚙️ CONTROLLER: Starting adDetailController for ad:', adId);
 
-  //* Get DOM element
+  // Get DOM element
   const adDetailSection = document.getElementById('ad-detail');
 
   /**
@@ -28,12 +27,12 @@ export const adDetailController = async (adDetailContainer, adId) => {
    */
   const handleOwnerActions = (ad) => {
 
-    //* EDIT BUTTON
+    // EDIT BUTTON
     const editBtn = document.getElementById('edit-ad-btn');
     if (editBtn) {
       editBtn.addEventListener('click', () => {
 
-        //* Verify token
+        // Verify token
         const token = localStorage.getItem(constants.tokenKey);
         if (!token) {
           alert('Your session has expired. Please login again.');
@@ -41,17 +40,17 @@ export const adDetailController = async (adDetailContainer, adId) => {
           return;
         }
 
-        //* Token existe → redirigir a edit
+        // Token exists → redirect to edit
         window.location.href = `edit-ad.html?id=${ad.id}`;
       });
     }
 
-    //* DELETE BUTTON
+    // DELETE BUTTON
     const deleteBtn = document.getElementById('delete-ad-btn');
     if (deleteBtn) {
       deleteBtn.addEventListener('click', async () => {
 
-        //* Verify token
+        // Verify token
         const token = localStorage.getItem(constants.tokenKey);
         if (!token) {
           alert('Your session has expired. Please login again.');
@@ -59,7 +58,7 @@ export const adDetailController = async (adDetailContainer, adId) => {
           return;
         }
 
-        //* Confirm deletion
+        // Confirm deletion
         const confirmed = confirm('Are you sure you want to delete this ad?\n\nThis action cannot be undone.');
 
         if (!confirmed) {
@@ -68,37 +67,37 @@ export const adDetailController = async (adDetailContainer, adId) => {
 
         try {
 
-          //* Show deleting toast + loader
+          // Show deleting toast + loader
           adDetailSection.dispatchEvent(new CustomEvent('start-deleting-ad', {
             detail: { message: 'Deleting ad...', type: 'info' }
           }));
 
-          //* Delete from backend + minimum delay
+          // Delete from backend + minimum delay
           await Promise.all([
             deleteAd(ad.id),
             new Promise(resolve => setTimeout(resolve, 800))
           ]);
 
-          //*  Hide loader
+          // Hide loader
           adDetailSection.dispatchEvent(new CustomEvent('finish-deleting-ad'));
 
-          //*  Show success toast
+          // Show success toast
           adDetailSection.dispatchEvent(new CustomEvent('delete-ad-success', {
             detail: { message: '✅ Ad deleted successfully!', type: 'success' }
           }));
 
-          //*  Wait for user to see the success toast
+          // Wait for user to see the success toast
           await new Promise(resolve => setTimeout(resolve, 2000));
 
-          //*  Redirect to home
+          // Redirect to home
           resetPagination();
           window.location.href = 'index.html';
 
         } catch (error) {
 
-          //* HANDLE ERRORS: Check if it's an auth error
+          // Check if it's an auth error
           const isAuthError =
-            error.message.includes(' not authenticated') ||
+            error.message.includes('not authenticated') ||
             error.message.includes('not authorized') ||
             error.message.includes('401') ||
             error.message.includes('403') ||
@@ -106,13 +105,13 @@ export const adDetailController = async (adDetailContainer, adId) => {
             error.message.includes('Forbidden');
 
           if (isAuthError) {
-            //* Token expired or user doesn't have permission
+            // Token expired or user doesn't have permission
             alert('Your session has expired or you don\'t have permission. Please login again.');
             window.location.href = 'login.html';
             return;
           }
 
-          //* OTHER ERRORS: While deleting..
+          // Other errors
           adDetailSection.dispatchEvent(new CustomEvent('delete-ad-error', {
             detail: {
               message: error.message || 'Failed to delete ad',
@@ -121,39 +120,37 @@ export const adDetailController = async (adDetailContainer, adId) => {
           }));
 
         } finally {
-          //* ALWAYS: Hide loader
+          // Always hide loader
           adDetailSection.dispatchEvent(new CustomEvent('finish-deleting-ad'));
         }
       });
     }
   };
 
-  //*  Fetch ad 
+  // Fetch ad
   let ad = null;
   let hasError = false;
-  let errorMessage = '';
 
   try {
-    //* Dispatch start event (show loader + info toast)
+    // Dispatch start event (show loader + info toast)
     adDetailSection.dispatchEvent(new CustomEvent('start-fetching-ad-detail', {
       detail: { message: '🔎 Loading ad details...', type: 'info' }
     }));
 
-    //* Fetch ad with owner info
+    // Fetch ad with owner info
     ad = await getAdDetail(adId);
 
-    //* Check if ad exists
+    // Check if ad exists
     if (!ad) {
       throw new Error('Ad not found');
     }
 
   } catch (error) {
 
-    //* STATE = ERROR
+    // STATE = ERROR
     hasError = true;
-    errorMessage = error.message;
 
-    //* Dispatch error event
+    // Dispatch error event
     adDetailSection.dispatchEvent(new CustomEvent('ad-detail-error', {
       detail: {
         message: '😱 ' + error.message,
@@ -162,17 +159,17 @@ export const adDetailController = async (adDetailContainer, adId) => {
     }));
 
   } finally {
-    //* Always hide loader
+    // Always hide loader
     adDetailSection.dispatchEvent(new CustomEvent('finish-fetching-ad-detail'));
   }
 
-  //* ERROR → Stop , go home
+  // ERROR → Stop, go home
   if (hasError) {
     window.location.href = 'index.html';
-    return; // Stop execution
+    return;
   }
 
-  //* STATE = SUCCESS - Dispatch success event
+  // STATE = SUCCESS - Dispatch success event
   adDetailSection.dispatchEvent(new CustomEvent('ad-detail-success', {
     detail: {
       message: '😀 Ad loaded successfully',
@@ -180,25 +177,27 @@ export const adDetailController = async (adDetailContainer, adId) => {
     }
   }));
 
-  //* Check ownership 
-  let isOwner = false;
+// Check ownership
+let isOwner = false;
 
-  try {
-    const userData = await getUserData();
+try {
+  const userData = await getUserData();
+  
+  // Check if user is owner
+  isOwner = userData.id === ad.userId;
 
-    //* Check if user is owner
-    isOwner = userData.id === ad.userId;
+} catch (error) {
+  // User is not authenticated → isOwner stays false
+  // This is OK, just don't show Edit/Delete buttons
+  isOwner = false;
+}
 
-  } catch (error) {
-    throw error;
-  }
+// Render ad with or without owner buttons
+const adHTML = buildAdDetailCard(ad, isOwner);
+adDetailContainer.innerHTML = adHTML;
 
-  //*  Render ad with or without owner buttons
-  const adHTML = buildAdDetailCard(ad, isOwner);
-  adDetailContainer.innerHTML = adHTML;
-
-  //* If owner, add event listeners to buttons
-  if (isOwner) {
-    handleOwnerActions(ad);
-  }
+// If owner, add event listeners to buttons
+if (isOwner) {
+  handleOwnerActions(ad);
+}
 };

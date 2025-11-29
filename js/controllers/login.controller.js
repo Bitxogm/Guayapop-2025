@@ -1,22 +1,17 @@
-//* ============================================
 //* login.controller.js
-//* ============================================
 
 import { constants } from "../utils/constants.js";
 import { loginUser } from "../models/loginModel.js";
 
 /**
- * Function to handle login form submission
- * @param {*} loginForm 
- * @args {Object} loginForm
- * @returns {void} 
+ * Handles login form submission
+ * @param {HTMLFormElement} 
  */
 
 export const loginController = (loginForm) => {
 
   // Event listener for form submission
   loginForm.addEventListener("submit", async (event) => {
-    // preventDefault form submission behavior
     event.preventDefault();
 
     // Initialize an array to store errors
@@ -58,10 +53,7 @@ export const loginController = (loginForm) => {
 
       // Store token in localStorage
       localStorage.setItem(constants.tokenKey, token);
-      console.log('✅ Token stored in localStorage', token);
-      localStorage.setItem(constants.tokenKey, token);
       localStorage.setItem('username', email);
-      console.log('✅ Token and username stored in localStorage');
 
       // If login is successful, dispatch success event
       const successEvent = new CustomEvent("login-success", {
@@ -74,7 +66,6 @@ export const loginController = (loginForm) => {
 
       // Redirect after a delay
       setTimeout(() => {
-        console.log('🔄 Redirecting to home...');
         window.location.href = "/";
       }, 3000);
 

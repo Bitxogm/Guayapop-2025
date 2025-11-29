@@ -1,11 +1,10 @@
 /**
- * Construye el HTML de los controles de paginación
- * @param {number} currentPage - Página actual
- * @param {number} totalPages - Total de páginas
- * @returns {string} HTML de la paginación
+ * Build HTML for pagination
+ * @param {number} currentPage - currentPage
+ * @param {number} totalPages - Total pages
+ * @returns {string} HTML pagination
  */
 export function buildPagination(currentPage, totalPages) {
-  // Si solo hay 1 página o menos, no mostrar paginación
   if (totalPages <= 1) {
     return '';
   }

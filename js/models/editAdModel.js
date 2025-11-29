@@ -11,21 +11,20 @@ import { constants } from '../utils/constants.js';
  * @throws {Error} If ad not found or network error
  */
 export async function getAdForEdit(adId) {
-  console.log('📡 MODEL: Fetching ad for edit:', adId);
-  
+
   const url = `${constants.apiUrl}/api/products/${adId}`;
-  
+
   const response = await fetch(url);
-  
+
+  // Check if ad exists
   if (!response.ok) {
     if (response.status === 404) {
       throw new Error('Ad not found');
     }
     throw new Error('Failed to fetch ad');
   }
-  
+
   const ad = await response.json();
-  console.log('✅ MODEL: Ad fetched successfully');
   return ad;
 }
 
@@ -45,16 +44,17 @@ export async function getAdForEdit(adId) {
  * @throws {Error} If not authenticated or update fails
  */
 export async function updateAd(adId, adData) {
-  console.log('📡 MODEL: Updating ad:', adId);
-  
+
+  // Get JWT token from localStorage
   const token = localStorage.getItem(constants.tokenKey);
-  
+
   if (!token) {
     throw new Error('You must be logged in to edit ads');
   }
 
   const url = `${constants.apiUrl}/api/products/${adId}`;
-  
+
+  // PATCH request with updated data
   const response = await fetch(url, {
     method: 'PATCH',
     headers: {
@@ -64,6 +64,7 @@ export async function updateAd(adId, adData) {
     body: JSON.stringify(adData)
   });
 
+  // Check response status
   if (!response.ok) {
     if (response.status === 401 || response.status === 403) {
       throw new Error('You are not authorized to edit this ad');
@@ -72,6 +73,5 @@ export async function updateAd(adId, adData) {
   }
 
   const updatedAd = await response.json();
-  console.log('✅ MODEL: Ad updated successfully');
   return updatedAd;
 }

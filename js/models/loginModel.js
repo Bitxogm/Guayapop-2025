@@ -1,18 +1,19 @@
 //* loginModel.js
 
+import { constants } from '../utils/constants.js';
 
 /**
  * Authenticates user and returns JWT token
- * @param {string} email (username) - User's email
+ * @param {string} email - User's email (username)
  * @param {string} password - User's password
  * @returns {Promise<string>} JWT access token
  * @throws {Error} If authentication fails
  */
 export const loginUser = async (email, password) => {
   try {
-    console.log('🔄 MODEL: Sending login request...');
     
-    const response = await fetch('http://localhost:8000/auth/login', {
+    // POST request to login endpoint
+    const response = await fetch(`${constants.apiUrl}/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -23,7 +24,7 @@ export const loginUser = async (email, password) => {
       })
     });
 
-    // CHECK response.ok BEFORE parsing JSON
+    // Check response before parsing JSON
     if (!response.ok) {
       
       let errorMessage = 'Login failed';
@@ -38,11 +39,9 @@ export const loginUser = async (email, password) => {
       throw new Error(errorMessage, { cause: 'server' });
     }
 
-    //Response OK - safe to parse JSON
+    // Response OK - safe to parse JSON
     const data = await response.json();
-    console.log('✅ MODEL: Login successful, token received');
-    
-    return data.accessToken; // Return JWT token
+    return data.accessToken;
 
   } catch (error) {
     

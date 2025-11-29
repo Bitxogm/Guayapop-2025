@@ -9,14 +9,14 @@ import { constants } from '../utils/constants.js';
  * @throws {Error} If fetching fails or ad not found
  */
 export const getAdDetail = async (adId) => {
-  console.log(`📡 MODEL: Fetching ad with ID: ${adId}`);
 
   try {
-    //* Build URL with _expand=user to get owner info
+    // Build URL with _expand=user to get owner info
     const url = `${constants.apiUrl}/api/products/${adId}?_expand=user`;
 
     const response = await fetch(url);
 
+    // Check response status
     if (!response.ok) {
       if (response.status === 404) {
         throw new Error('Ad not found');
@@ -25,12 +25,9 @@ export const getAdDetail = async (adId) => {
     }
 
     const adDetail = await response.json();
-    console.log('✅ MODEL: Ad received successfully:', adDetail);
-
     return adDetail;
 
   } catch (error) {
-    console.error('❌ MODEL: Error fetching ad:', error);
     throw error;
   }
 };
@@ -41,10 +38,10 @@ export const getAdDetail = async (adId) => {
  * @throws {Error} If fetching fails or user not authenticated
  */
 export const getUserData = async () => {
-  console.log('📡 MODEL: Fetching current user data');
 
+  // Get token from localStorage
   const token = localStorage.getItem(constants.tokenKey);
-  
+
   if (!token) {
     throw new Error('User is not authenticated');
   }
@@ -52,6 +49,7 @@ export const getUserData = async () => {
   try {
     const url = `${constants.apiUrl}/auth/me`;
 
+    // Fetch with Authorization header
     const response = await fetch(url, {
       headers: {
         'Authorization': `Bearer ${token}`
@@ -63,12 +61,9 @@ export const getUserData = async () => {
     }
 
     const userData = await response.json();
-    console.log('✅ MODEL: User data received successfully:', userData);
-
     return userData;
 
   } catch (error) {
-    console.error('❌ MODEL: Error fetching user data:', error);
     throw error;
   }
 };
@@ -81,10 +76,10 @@ export const getUserData = async () => {
  * @throws {Error} If update fails
  */
 export const updateAd = async (adId, adData) => {
-  console.log(`📡 MODEL: Updating ad ${adId}`, adData);
 
+  // Get token from localStorage
   const token = localStorage.getItem(constants.tokenKey);
-  
+
   if (!token) {
     throw new Error('User is not authenticated');
   }
@@ -92,8 +87,9 @@ export const updateAd = async (adId, adData) => {
   try {
     const url = `${constants.apiUrl}/api/products/${adId}`;
 
+    // PATCH request with updated data
     const response = await fetch(url, {
-      method: 'PATCH',  // ✅ PATCH para actualización parcial
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
@@ -106,12 +102,9 @@ export const updateAd = async (adId, adData) => {
     }
 
     const updatedAd = await response.json();
-    console.log('✅ MODEL: Ad updated successfully:', updatedAd);
-
     return updatedAd;
 
   } catch (error) {
-    console.error('❌ MODEL: Error updating ad:', error);
     throw error;
   }
 };
@@ -123,18 +116,18 @@ export const updateAd = async (adId, adData) => {
  * @throws {Error} If deletion fails
  */
 export const deleteAd = async (adId) => {
-  console.log(`📡 MODEL: Deleting ad ${adId}`);
 
+  // Get token from localStorage
   const token = localStorage.getItem(constants.tokenKey);
-  
+
   if (!token) {
     throw new Error('User is not authenticated');
-    
   }
 
   try {
     const url = `${constants.apiUrl}/api/products/${adId}`;
 
+    // DELETE request
     const response = await fetch(url, {
       method: 'DELETE',
       headers: {
@@ -146,10 +139,7 @@ export const deleteAd = async (adId) => {
       throw new Error(`Failed to delete ad (${response.status})`);
     }
 
-    console.log('✅ MODEL: Ad deleted successfully');
-
   } catch (error) {
-    console.error('❌ MODEL: Error deleting ad:', error);
     throw error;
   }
 };

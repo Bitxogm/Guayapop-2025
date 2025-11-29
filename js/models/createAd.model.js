@@ -24,7 +24,6 @@ export const createAd = async (adData) => {
   }
   try {
     const url = `${constants.apiUrl}/api/products/`;
-    console.log('🔄 MODEL: Creating add...');
 
     const response = await fetch(url, {
       method: 'POST',
@@ -39,7 +38,7 @@ export const createAd = async (adData) => {
         type: adData.type,
         image: adData.image || "https://placehold.co/800x400?text=No+Image",
         tags: adData.tags || [], 
-        createAd: new Date().toISOString()
+        createdAt: new Date().toISOString()
       })
     });
 
@@ -60,8 +59,6 @@ export const createAd = async (adData) => {
 
     //Response OK - safe to parse JSON
     const data = await response.json();
-    console.log('✅ MODEL: Create ad successful, token received');
-
     return data;
 
   } catch (error) {

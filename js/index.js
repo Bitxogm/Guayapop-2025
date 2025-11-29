@@ -1,4 +1,3 @@
-
 //* index.js - Entry Point for Home Page
 
 /**
@@ -13,17 +12,12 @@ import { loaderController } from "./controllers/loader.controller.js";
 import { toastController } from "./controllers/toast.controller.js";
 import { sessionController } from "./controllers/session.controller.js";
 
-console.log('🚀 Index page starting...');
-
 document.addEventListener('DOMContentLoaded', async () => {
-  console.log('✅ DOM ready, initializing index page...');
 
-  // ✅ Initialize session controller (builds navbar buttons dynamically)
+  // Initialize session controller (builds navbar buttons dynamically)
   const sessionContainer = document.getElementById('session-container');
   if (sessionContainer) {
     sessionController(sessionContainer);
-  } else {
-    console.error('❌ Session container not found');
   }
 
   // Get DOM elements
@@ -37,23 +31,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Try both possible IDs for toast container
   let toastContainer = document.getElementById("notifications");
-  if (!toastContainer) {
-    toastContainer = document.getElementById("toast-container");
-  }
 
   // Verify elements exist
-  if (!adsSection) {
-    console.error('❌ Ads section #ads-cards not found');
-    return;
-  }
-
-  if (!loaderContainer) {
-    console.error('❌ Loader container not found');
-    return;
-  }
-
-  if (!toastContainer) {
-    console.error('❌ Toast container not found');
+  if (!adsSection || !loaderContainer || !toastContainer) {
     return;
   }
 
@@ -61,47 +41,39 @@ document.addEventListener('DOMContentLoaded', async () => {
   const { showLoader, hideLoader } = loaderController(loaderContainer);
   const { showToast } = toastController(toastContainer);
 
-  // Event listeners  
-  // Listen to loader events
+  // Event listeners - FETCH events
   adsSection.addEventListener("start-fetching-ads", (event) => {
-    console.log('📡 EVENT: start-fetching-ads → Showing loader');
     showToast(event.detail.message, event.detail.type);
     showLoader();
   });
 
   adsSection.addEventListener("finish-fetching-ads", () => {
-    console.log('📡 EVENT: finish-fetching-ads → Hiding loader');
     hideLoader();
   });
 
   adsSection.addEventListener('finish-load-ads', (event) => {
-    console.log('📡 EVENT: finish-load-ads ');
     showToast(event.detail.message, event.detail.type);
   });
 
   adsSection.addEventListener('ads-empty', (event) => {
-    console.log('📡 EVENT: ads-empty');
-    showToast(event.detail.message, event.detail.type);
-  })
-
-  // Listen to error events
-  adsSection.addEventListener("ads-error", (event) => {
-    console.log('📡 EVENT: ads-error');
     showToast(event.detail.message, event.detail.type);
   });
 
-  // Search functionality
+  // Event listeners - ERROR events
+  adsSection.addEventListener("ads-error", (event) => {
+    showToast(event.detail.message, event.detail.type);
+  });
+
+  // Event listeners - SEARCH functionality
   if (searchButton) {
     searchButton.addEventListener('click', () => {
-      console.log('🔍 Search button clicked');
       handleSearch();
     });
   }
 
   if (searchInput) {
-    searchInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        console.log('🔍 Enter pressed in search');
+    searchInput.addEventListener('keypress', (event) => {
+      if (event.key === 'Enter') {
         handleSearch();
       }
     });
@@ -109,34 +81,25 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   if (showAllButton) {
     showAllButton.addEventListener('click', () => {
-      console.log('🔄 Show all ads clicked');
       showAllAds();
     });
   }
 
-  // Filter by tag buttons
+  // Event listeners - FILTER by tag
   filterButtons.forEach(button => {
     button.addEventListener('click', () => {
       const tag = button.dataset.tag;
-      console.log('🏷️ Filter button clicked:', tag);
       filterByTag(tag);
     });
   });
 
-// Çlear filter button
+  // Event listeners - CLEAR filter
   if (clearFilterButton) {
     clearFilterButton.addEventListener('click', () => {
-      console.log('🗑️ Clear filter clicked');
       clearFilter();
     });
   }
 
-
-
-
   // Initialize ads controller
-  console.log('🎮 Calling adsController...');
   await adsController();
-
-  console.log('✅ Index page initialized');
 });

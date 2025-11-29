@@ -1,14 +1,20 @@
-//** Signup Controller Module **/
+//** Signup controller */
+
 import { constants } from '../utils/constants.js';
 import { createUser } from '../models/signupModel.js';
+
+/**
+ * Form for create user and validation
+ * @param {HTMLFormElement} signupForm - The signup form element 
+ */
 
 export const signupController = (signupForm) => {
 
   // Event listener for form submission
   signupForm.addEventListener('submit', async (event) => {
-    // preventDefault form submission behavior
     event.preventDefault();
 
+    // Initialize an array to store errors
     const errors = []
 
     // Select form fields
@@ -40,6 +46,7 @@ export const signupController = (signupForm) => {
       });
       errors.push(errorEvent);
     }
+
     // If there are validation errors, dispatch them and exit
     if (errors.length > 0) {
       errors.forEach(errorEvent => {
@@ -47,11 +54,10 @@ export const signupController = (signupForm) => {
       });
       return;
     }
+
     // Call createUser from the model if no validation errors
-
     try {
-
-      // Distpatch START loader event
+      // Dispatch START loader event
       const startEvent = new CustomEvent("start-signup");
       signupForm.dispatchEvent(startEvent);
 
@@ -64,7 +70,7 @@ export const signupController = (signupForm) => {
         }
       });
       signupForm.dispatchEvent(successEvent);
-        setTimeout(() => {
+      setTimeout(() => {
         window.location.href = "/";
       }, 3000);
     } catch (error) {
@@ -77,13 +83,12 @@ export const signupController = (signupForm) => {
         }
       });
       signupForm.dispatchEvent(errorEvent);
-    }finally{
-      // Distpatch END loader event
+    } finally {
+      // Dispatch END loader event
       const finishEvent = new CustomEvent("finish-signup");
       signupForm.dispatchEvent(finishEvent);
     }
   });
-
 }
 
 

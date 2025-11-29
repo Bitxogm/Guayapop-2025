@@ -1,17 +1,11 @@
-//** Edit Ad Controller - Handles ad update logic */
+//** Edit Ad Controller  */
 
 import { getAdForEdit, updateAd } from '../models/editAdModel.js';
 import { getUserData } from '../models/adDetailModel.js';
-import { constants } from '../utils/constants.js';  
+import { constants } from '../utils/constants.js';
 
 /**
  * Edit Ad Controller - Loads ad data and handles form submission
- * 
- * Handles three possible states:
- * - LOADING: Shows loader while fetching ad
- * - ERROR: Shows error and redirects if ad not found or not owner
- * - SUCCESS: Pre-fills form and handles update
- * 
  * @async
  * @param {string} adId - ID of ad to edit
  * @returns {Promise<void>}
@@ -19,89 +13,76 @@ import { constants } from '../utils/constants.js';
  * @throws {Error} If ad not found or not owner
  */
 export const editAdController = async (adId) => {
-  console.log('🎮 CONTROLLER: Starting editAdController for ad:', adId);
 
-  //* Get DOM elements
+  // Get DOM elements
   const form = document.getElementById('ad-form');
   const editAdSection = document.getElementById('edit-ad-section');
 
-  if (!form || !editAdSection) {
-    console.error('❌ CONTROLLER: Required elements not found');
-    return;
-  }
-
-  //*  Fetch ad data
+  // Fetch ad data
   let ad = null;
 
   try {
-    //* Dispatch start event (show loader + toast)
+    // Dispatch start event (show loader + toast)
     editAdSection.dispatchEvent(new CustomEvent('start-fetching-ad', {
       detail: { message: 'Loading ad...', type: 'info' }
     }));
 
-    //* Fetch ad from backend
+    // Fetch ad from backend
     ad = await getAdForEdit(adId);
-    console.log('✅ CONTROLLER: Ad loaded:', ad);
+
+    // Dispatch success event  
+    editAdSection.dispatchEvent(new CustomEvent('fetch-ad-success', {
+      detail: { message: '✅ Ad loaded successfully!', type: 'success' }
+    }));
 
   } catch (error) {
-    console.error('❌ CONTROLLER: Error loading ad:', error);
-
     editAdSection.dispatchEvent(new CustomEvent('ad-not-found', {
       detail: { message: 'Ad not found', type: 'warning' }
     }));
-
     alert(error.message || 'Failed to load ad');
     window.location.href = 'index.html';
-    return;  
+    return;
 
   } finally {
-    //* Always hide loader
+    // Always hide loader
     editAdSection.dispatchEvent(new CustomEvent('finish-fetching-ad'));
   }
 
-  //*  Verify ownership
+  // Verify ownership
   let isOwner = false;
 
   try {
     const userData = await getUserData();
-    console.log('👤 User data retrieved:', userData);
 
-    //* Check if user is owner
+    // Check if user is owner
     isOwner = userData.id === ad.userId;
-    console.log('🔑 Is owner?', isOwner);
 
-    //* If NOT owner, show alert and redirect
+    // If NOT owner, show alert and redirect
     if (!isOwner) {
       alert('You can only edit your own ads');
       window.location.href = 'index.html';
       return;
     }
-
-    console.log('✅ Ownership verified - User can edit this ad');
-
   } catch (error) {
-    //* User not authenticated - redirect to login
-    console.log('👤 User not authenticated');
+    // User not authenticated - redirect to login
     alert('You must be logged in to edit ads');
     window.location.href = 'login.html';
     return;
   }
 
-  //*  Pre-fill form with ad data
-  console.log('📝 CONTROLLER: Pre-filling form...');
-
+  // Pre-fill form with ad data
   document.getElementById('name').value = ad.name || '';
   document.getElementById('description').value = ad.description || '';
   document.getElementById('price').value = ad.price || '';
   document.getElementById('image').value = ad.image || '';
 
-  //* Set type radio button
+  // Set type radio button
   const typeRadio = document.querySelector(`input[name="type"][value="${ad.type}"]`);
   if (typeRadio) {
     typeRadio.checked = true;
   }
 
-  //* Set tags checkboxes
+  // Set tags checkboxes
   if (ad.tags && ad.tags.length > 0) {
     ad.tags.forEach(tag => {
       const checkbox = document.querySelector(`input[name="tags"][value="${tag}"]`);
@@ -111,13 +92,9 @@ export const editAdController = async (adId) => {
     });
   }
 
-  console.log('✅ CONTROLLER: Form pre-filled');
-
-  
-  //*  Handle form submission
+  // Handle form submission
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
-    console.log('📝 CONTROLLER: Form submitted');
 
     const token = localStorage.getItem(constants.tokenKey);
     if (!token) {
@@ -126,7 +103,7 @@ export const editAdController = async (adId) => {
       return;
     }
 
-    //* Get form data
+    // Get form data
     const formData = new FormData(form);
 
     const name = formData.get('name').trim();
@@ -136,7 +113,7 @@ export const editAdController = async (adId) => {
     const image = formData.get('image').trim();
     const tags = formData.getAll('tags');
 
-    //* Prepare updated ad data
+    // Prepare updated ad data
     const updatedAdData = {
       name,
       description,
@@ -144,40 +121,35 @@ export const editAdController = async (adId) => {
       type,
       image: image || 'https://placehold.co/800x400?text=No+Image',
       tags
-      // updatedAt se actualiza automáticamente por json-server
     };
 
     try {
-      //* Dispatch start event (show loader + toast)
+      // Dispatch start event (show loader + toast)
       editAdSection.dispatchEvent(new CustomEvent('start-updating-ad', {
         detail: { message: 'Updating ad...', type: 'info' }
       }));
 
-      //* Update ad in backend and wait max 800ms
+      // Update ad in backend and wait max 800ms
       await Promise.all([
         updateAd(adId, updatedAdData),
         new Promise(resolve => setTimeout(resolve, 800))
       ]);
 
-      //* Hide loader
+      // Hide loader
       editAdSection.dispatchEvent(new CustomEvent('finish-updating-ad'));
 
-      //* Show success toast
+      // Show success toast
       editAdSection.dispatchEvent(new CustomEvent('update-ad-success', {
         detail: { message: '✅ Ad updated successfully!', type: 'success' }
       }));
 
-      //* Wait 2 seconds for user to see success
-      console.log('⏳ Waiting 2 seconds before redirect...');
+      // Wait 2 seconds for user to see success
       await new Promise(resolve => setTimeout(resolve, 2000));
-
-      console.log('🔄 Redirecting to ad detail...');
       window.location.href = `ad-detail.html?id=${adId}`;
-
+      
     } catch (error) {
-      console.error('❌ CONTROLLER: Error updating ad:', error);
 
-      //* Detectar error de autenticación
+      // Check if error is related to authentication
       const isAuthError =
         error.message.includes('not authenticated') ||
         error.message.includes('not authorized') ||
@@ -192,7 +164,7 @@ export const editAdController = async (adId) => {
         return;
       }
 
-      //*  Dispatch error event (show toast)
+      // Dispatch error event (show toast)
       editAdSection.dispatchEvent(new CustomEvent('update-ad-error', {
         detail: {
           message: error.message || 'Failed to update ad',
@@ -201,10 +173,8 @@ export const editAdController = async (adId) => {
       }));
 
     } finally {
-      //* Ensure loader is hidden
+      // Ensure loader is hidden
       editAdSection.dispatchEvent(new CustomEvent('finish-updating-ad'));
     }
   });
-
-  console.log('✅ CONTROLLER: Edit controller initialized');
 };
