@@ -1,7 +1,14 @@
 /**
- * Builds HTML for ONE ad card (without wrapper)
+ * Builds HTML for a single ad card
  * @param {Object} ad - Ad object from backend
- * @returns {String} - HTML string for the card content
+ * @param {number} ad.id - Ad ID
+ * @param {string} ad.name - Ad name
+ * @param {string} ad.description - Ad description
+ * @param {number} ad.price - Ad price
+ * @param {string} ad.type - Ad type ('sell' or 'buy')
+ * @param {string} [ad.image] - Ad image URL (optional)
+ * @param {string[]} [ad.tags] - Ad tags (optional)
+ * @returns {string} HTML string for the ad card
  */
 export const buildAdCard = (ad) => {
   // Default image if ad doesn't have photo

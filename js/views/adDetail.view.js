@@ -1,34 +1,52 @@
+//** Ad Detail View */
+
+/**
+ * Builds HTML for ad detail view
+ * @param {Object} ad - Ad object with all details
+ * @param {number} ad.id - Ad ID
+ * @param {string} ad.name - Ad name
+ * @param {string} ad.description - Ad description
+ * @param {number} ad.price - Ad price
+ * @param {string} ad.type - Ad type ('sell' or 'buy')
+ * @param {string} [ad.image] - Ad image URL (optional)
+ * @param {string[]} [ad.tags] - Ad tags (optional)
+ * @param {Object} [ad.user] - Owner information (optional)
+ * @param {string} [ad.user.username] - Owner username
+ * @param {string} [ad.updatedAt] - Last update date
+ * @param {boolean} isOwner - Whether current user is the owner
+ * @returns {string} HTML string for ad detail card
+ */
 export const buildAdDetailCard = (ad, isOwner = false) => {
 
   const placeHolderImage = 'https://placehold.co/800x400?text=No+Image';
-  
+
   const image = ad.image ?? placeHolderImage;
   const badgeClass = ad.type === 'sell' ? 'bg-success' : 'bg-warning';
   const badgeText = ad.type === 'sell' ? '💰 Selling' : '🛒 Buying';
-  const tagsHTML = ad.tags && ad.tags.length > 0 
-    ? ad.tags.map(tag => `<span class="badge bg-secondary me-1">${tag}</span>`).join('') 
+  const tagsHTML = ad.tags && ad.tags.length > 0
+    ? ad.tags.map(tag => `<span class="badge bg-secondary me-1">${tag}</span>`).join('')
     : '';
-  
+
   //* Owner info 
   const ownerHTML = ad.user
     ? `<p class="mb-1">👤 Published by: <strong>${ad.user.username.split('@')[0]}</strong></p>`
     : '';
-  
-  const actionButtonsHTML = isOwner 
+
+  const actionButtonsHTML = isOwner
     ? `<button id="edit-ad-btn" class="btn btn-warning">
          ✏️ Edit Ad
        </button>
        <button id="delete-ad-btn" class="btn btn-danger">
          🗑️ Delete Ad
-       </button>` 
+       </button>`
     : '';
-  
-  const createdDate = ad.updatedAt 
+
+  const createdDate = ad.updatedAt
     ? new Date(ad.updatedAt).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      })
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
     : 'Unknown';
 
   return `

@@ -255,6 +255,5 @@ export function clearFilter() {
     clearBtn.style.display = 'none';
   }
 
-  // Recargar todos los anuncios
   adsController();
 }
